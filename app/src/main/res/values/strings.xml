@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">Yaya Bureau</string>
+
+
+    <string-array name="sex">
+        <item>Select gender</item>
+        <item>Male</item>
+        <item>Female</item>
+    </string-array>
+
+    <string-array name="status">
+        <item>Select status</item>
+        <item>Available</item>
+        <item>UnAvailable</item>
+    </string-array>
+
+    <string-array name="experience">
+        <item>Select experience</item>
+        <item>1-2yrs</item>
+        <item>3-5yrs</item>
+        <item>5yrs and above</item>
+    </string-array>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>

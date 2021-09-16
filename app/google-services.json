@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "934333898387",
+    "project_id": "yayananies",
+    "storage_bucket": "yayananies.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:934333898387:android:d66238f8353f691a71b766",
+        "android_client_info": {
+          "package_name": "com.intech.yayabureau"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "934333898387-avcu4ng826iosfbkj60qo3vl6doq20dl.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.intech.yayabureau",
+            "certificate_hash": "785fe5cdd935a518363e1189523ff8efca501580"
+          }
+        },
+        {
+          "client_id": "934333898387-arhmiu72snefsm915j2jcqd74nloddjo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB4BPPNt8BOiLKEWuiBf7zrRTCZAGCkVJ0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "934333898387-arhmiu72snefsm915j2jcqd74nloddjo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

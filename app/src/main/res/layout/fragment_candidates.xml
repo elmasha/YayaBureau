@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/main2"
+    tools:context=".Fragments.CandidatesFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_margin="8dp"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/bureau_name"
+                android:textSize="19dp"
+                android:textStyle="bold"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="8dp"
+                android:textColor="@color/white"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:id="@+id/user_name"
+                android:layout_width="wrap_content"
+                android:text="Elmasha Omondi"
+                android:textSize="16dp"
+                android:visibility="gone"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:id="@+id/user_email"
+                android:visibility="gone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+
+
+        </LinearLayout>
+
+
+
+        <androidx.cardview.widget.CardView
+            app:cardCornerRadius="12dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="vertical"
+                android:padding="8dp"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:textColor="@color/main2"
+                    android:text="My candidates"
+                    android:textStyle="bold"
+                    android:layout_margin="8dp"
+                    android:textSize="18dp"
+                    android:layout_height="wrap_content"/>
+
+                <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                    android:id="@+id/SwipeRefresh"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recycler_candidate"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"/>
+
+                </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+
+
+
+            </LinearLayout>
+
+
+
+        </androidx.cardview.widget.CardView>
+
+
+
+
+
+
+
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/files"
+        android:src="@drawable/folder"
+        android:layout_width="90dp"
+        android:layout_centerInParent="true"
+        android:layout_height="90dp"/>
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/bg_blue"
+            android:text="Add candidate"
+            android:textColor="@color/blue"
+            android:textStyle="bold" />
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/Add_candidate"
+            android:layout_width="wrap_content"
+            app:fab_colorNormal="@color/main2"
+            android:layout_gravity="bottom|end"
+            app:fab_icon="@drawable/ic_person_add"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+
+
+
+
+</RelativeLayout>

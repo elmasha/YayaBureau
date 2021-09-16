@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/main2"
+    tools:context=".Activities.MainActivity">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_centerInParent="true"
+        android:layout_height="wrap_content">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            app:cardCornerRadius="10dp"
+            android:layout_margin="10dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:padding="20dp"
+                android:orientation="vertical"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Yaya Bureau"
+                    android:textSize="22dp"
+                    android:layout_margin="10dp"
+                    android:layout_gravity="center_horizontal"
+                    android:textColor="@color/primary"
+                    android:textStyle="bold"
+                    android:layout_centerInParent="true"/>
+
+                <ImageView
+                    android:layout_width="250dp"
+                    android:layout_gravity="center_horizontal"
+                    android:src="@drawable/bureau1"
+                    android:layout_height="250dp"/>
+
+
+
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="10dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_height="wrap_content">
+
+
+
+                    <Button
+                        android:id="@+id/Register"
+                        android:layout_width="200dp"
+                        android:text="Register"
+                        android:textColor="@color/black"
+                        android:layout_margin="8dp"
+                        android:background="@drawable/btn_round_gradient"
+                        android:layout_height="wrap_content"/>
+
+                    <Button
+                        android:id="@+id/Log_in"
+                        android:layout_width="200dp"
+                        android:text="Log in"
+                        android:textColor="@color/black"
+                        android:layout_margin="8dp"
+                        android:background="@drawable/btn_round_gradient"
+                        android:layout_height="wrap_content"/>
+
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+
+
+
+        </androidx.cardview.widget.CardView>
+
+
+
+
+    </androidx.core.widget.NestedScrollView>
+
+
+
+
+<TextView
+    android:layout_width="wrap_content"
+    android:layout_alignParentBottom="true"
+    android:text="@Inkluzon technology"
+    android:textColor="@color/white"
+    android:layout_margin="5dp"
+    android:layout_height="wrap_content"/>
+
+
+</RelativeLayout>
