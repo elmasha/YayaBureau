@@ -38,7 +38,7 @@ import java.util.concurrent.TimeUnit;
 public class LoginActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
-    private TextView timer,onSendNo;
+    private TextView timer,onSendNo,Back2main,ToRegister;
     private EditText InputCode,InputPhone;
     private Button ReqOTP,VeryCode;
     private CountryCodePicker CodePicker;
@@ -72,7 +72,8 @@ public class LoginActivity extends AppCompatActivity {
         ReqOTP = findViewById(R.id.send_Otp);
         CodePicker = findViewById(R.id.Phone_picker);
         VeryCode = findViewById(R.id.send_Vcode);
-
+        Back2main = findViewById(R.id.BackToMain);
+        ToRegister = findViewById(R.id.ToRegister);
         LayoutSendCode = findViewById(R.id.LayoutOTP);
         LayoutVerifyCode = findViewById(R.id.LayoutVerify);
 
@@ -134,6 +135,20 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+
+        Back2main.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getApplicationContext(),MainActivity.class));
+            }
+        });
+
+        ToRegister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getApplicationContext(),RegisterActivity.class));
+            }
+        });
 
 
         mCallBacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
@@ -280,11 +295,11 @@ public class LoginActivity extends AppCompatActivity {
         View view = backToast.getView();
 
         //Gets the actual oval background of the Toast then sets the colour filter
-        view.getBackground().setColorFilter(Color.parseColor("#61EBED"), PorterDuff.Mode.SRC_IN);
+        view.getBackground().setColorFilter(Color.parseColor("#0BF4DE"), PorterDuff.Mode.SRC_IN);
 
         //Gets the TextView from the Toast so it can be editted
         TextView text = view.findViewById(android.R.id.message);
-        text.setTextColor(Color.parseColor("#53ACEE"));
+        text.setTextColor(Color.parseColor("#1C1B2B"));
         backToast.show();
     }
 }

@@ -56,6 +56,7 @@ public class RegisterActivity extends AppCompatActivity {
     private boolean mTimerRunning;
     private long mTimeLeftInMillis = START_TIME_IN_MILLIS_COUNT;
     private ProgressDialog progressDialog2,progressDialog;
+    private TextView toLogin,toMain;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,6 +76,22 @@ public class RegisterActivity extends AppCompatActivity {
         PostalCode = findViewById(R.id.postal_code);
         Telephone = findViewById(R.id.phone_no);
         btnRegister = findViewById(R.id.Btn_register);
+        toLogin = findViewById(R.id.ToLogin);
+        toMain = findViewById(R.id.BackToMain2);
+
+
+        toMain.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getApplicationContext(),MainActivity.class));
+            }
+        });
+        toLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getApplicationContext(),LoginActivity.class));
+            }
+        });
 
 
         btnRegister.setOnClickListener(new View.OnClickListener() {
@@ -343,11 +360,11 @@ public class RegisterActivity extends AppCompatActivity {
         View view = backToast.getView();
 
         //Gets the actual oval background of the Toast then sets the colour filter
-        view.getBackground().setColorFilter(Color.parseColor("#61EBED"), PorterDuff.Mode.SRC_IN);
+        view.getBackground().setColorFilter(Color.parseColor("#0BF4DE"), PorterDuff.Mode.SRC_IN);
 
         //Gets the TextView from the Toast so it can be editted
         TextView text = view.findViewById(android.R.id.message);
-        text.setTextColor(Color.parseColor("#53ACEE"));
+        text.setTextColor(Color.parseColor("#1C1B2B"));
         backToast.show();
     }
 

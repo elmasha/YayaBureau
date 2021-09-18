@@ -467,11 +467,11 @@ public class Add_Candidate extends AppCompatActivity {
         View view = backToast.getView();
 
         //Gets the actual oval background of the Toast then sets the colour filter
-        view.getBackground().setColorFilter(Color.parseColor("#61EBED"), PorterDuff.Mode.SRC_IN);
+        view.getBackground().setColorFilter(Color.parseColor("#0BF4DE"), PorterDuff.Mode.SRC_IN);
 
         //Gets the TextView from the Toast so it can be editted
         TextView text = view.findViewById(android.R.id.message);
-        text.setTextColor(Color.parseColor("#FF000000"));
+        text.setTextColor(Color.parseColor("#1C1B2B"));
         backToast.show();
     }
 

@@ -4,40 +4,43 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/main2"
+    android:background="@color/black"
     tools:context=".Activities.LoginActivity">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:orientation="vertical"
-            android:layout_marginTop="30dp"
             android:layout_height="match_parent">
 
 
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_centerInParent="true"
-                android:layout_margin="10dp"
-                app:cardCornerRadius="12dp"
-                android:layout_height="match_parent"
-                >
+
+            <TextView
+                android:id="@+id/BackToMain"
+                android:layout_width="wrap_content"
+                android:drawableLeft="@drawable/ic_west"
+                android:layout_margin="15dp"
+                android:layout_height="wrap_content"/>
+
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:orientation="vertical"
                     android:padding="15dp"
+                    android:layout_centerInParent="true"
+                    android:background="@color/black"
                     android:layout_height="match_parent"
                     >
 
                     <ImageView
-                        android:layout_width="250dp"
+                        android:layout_width="220dp"
                         android:layout_gravity="center"
-                        android:layout_margin="10dp"
+                        android:layout_margin="20dp"
                         android:src="@drawable/login"
-                        android:layout_height="250dp"/>
+                        android:layout_height="220dp"/>
 
 
 
@@ -51,11 +54,13 @@
 
                         <TextView
                             android:id="@+id/Pass_otp"
-                            android:layout_width="300dp"
-                            android:layout_marginTop="20dp"
+                            android:layout_width="240dp"
+                            android:layout_marginTop="12dp"
                             android:layout_gravity="center_horizontal"
                             android:layout_height="wrap_content"
                             android:textAlignment="center"
+                            android:textSize="15dp"
+                            android:textColor="@color/white"
                             android:text="We will send an One Time Password on this mobile number"
                             android:gravity="center_horizontal" />
 
@@ -64,6 +69,7 @@
                             android:layout_width="wrap_content"
                             android:orientation="horizontal"
                             android:layout_margin="15dp"
+                            android:background="@drawable/bg_lightblack"
                             android:layout_gravity="center_horizontal"
                             android:layout_height="wrap_content">
 
@@ -72,7 +78,7 @@
                                 app:ccp_autoFormatNumber="false"
                                 app:ccp_textGravity="LEFT"
                                 app:ccp_showNameCode="false"
-                                app:ccp_contentColor="@color/blue"
+                                app:ccp_contentColor="@color/main2"
                                 app:ccp_defaultNameCode="KE"
                                 app:ccp_clickable="true"
                                 app:ccp_rememberLastSelection="true"
@@ -88,12 +94,12 @@
                             <EditText
                                 android:id="@+id/Phone_number"
                                 android:layout_width="140dp"
-                                android:hint="7*34**5"
-                                android:textColorHint="@color/grey"
-                                android:textColor="@color/blue"
-                                android:inputType="phone"
+                                android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:layout_height="wrap_content"/>
+                                android:hint="7*34**5"
+                                android:inputType="phone"
+                                android:textColor="@color/main2"
+                                android:textColorHint="@color/lightGrey" />
 
                         </LinearLayout>
 
@@ -104,15 +110,41 @@
                             android:id="@+id/send_Otp"
                             android:layout_width="200dp"
                             android:layout_height="wrap_content"
-                            android:background="@drawable/bg_blue"
+                            android:background="@drawable/btn_round_gradient"
                             android:text="Send OTP"
                             android:textColor="@color/black"
                             android:layout_gravity="center_horizontal"
-                            android:layout_marginBottom="10dp"
+                            android:layout_marginBottom="8dp"
                             android:textSize="16dp"
-                            android:layout_centerHorizontal="true"
-                            android:layout_below="@id/timer"
                             android:layout_marginTop="16dp"/>
+
+
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:layout_gravity="center_horizontal"
+                            android:orientation="horizontal"
+                            >
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:text="Don't have an account?"
+                                android:textColor="@color/lightGrey"
+                                android:textSize="14dp"
+                                android:layout_height="wrap_content"/>
+
+                            <TextView
+                                android:id="@+id/ToRegister"
+                                android:layout_width="wrap_content"
+                                android:text="Sign up"
+                                android:textColor="@color/main2"
+                                android:textSize="15dp"
+                                android:layout_marginStart="4dp"
+                                android:textStyle="bold"
+                                android:layout_height="wrap_content"/>
+
+                        </LinearLayout>
 
 
 
@@ -150,7 +182,7 @@
                             android:layout_marginTop="10dp"
                             android:layout_centerHorizontal="true"
                             android:textSize="25dp"
-                            android:textColor="@color/black"
+                            android:textColor="@color/white"
                             android:text="OTP Verification"/>
 
 
@@ -171,6 +203,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="10dp"
+                                android:textColor="@color/lightGrey"
                                 android:text="Enter OTP sent to"/>
 
                             <TextView
@@ -182,6 +215,7 @@
                                 android:layout_marginStart="8dp"
                                 android:textStyle="bold"
                                 android:textSize="16dp"
+                                android:textColor="@color/main"
                                 android:layout_height="wrap_content"
                                 android:textAlignment="center"
                                 android:text=" 0725****4"
@@ -207,7 +241,7 @@
                             android:textColorHint="@color/grey"
                             android:hint="*** - ***"
                             android:textStyle="bold"
-                            android:textColor="@color/blue"
+                            android:textColor="@color/main"
                             android:layout_below="@id/layout_pass"
                             android:layout_centerHorizontal="true"
                             android:background="@drawable/border_grey"
@@ -302,7 +336,7 @@
 
                 </LinearLayout>
 
-            </androidx.cardview.widget.CardView>
+
 
 
 
@@ -313,7 +347,7 @@
                 android:gravity="bottom|left"
                 android:layout_height="wrap_content"/>
 
-        </RelativeLayout>
+        </LinearLayout>
 
 
     </androidx.core.widget.NestedScrollView>
