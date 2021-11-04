@@ -4,14 +4,17 @@ import java.util.Date;
 
 public class Candidates {
     private String Candidate_name,Gender,ID_no, DOB, Mobile_no, device_token, Profile_image,
-            County, Ward, Village, Next_of_kin, Kin_phone_no, Experience, Salary,Status,CandidateID,Age,Residence;
+            County, Ward, Village, Next_of_kin, Kin_phone_no, Experience, Salary,Status,CandidateID,Age,Residence, Employer_name,
+            Employer_no,
+            Employer_county,
+            Employer_city,Employer_ID,Working_status;
     private Date timestamp;
     public Candidates() {
         //empty...
     }
 
-    public Candidates(String candidate_name, String gender, String ID_no, String DOB, String mobile_no, String device_token, String profile_image,
-                      String county, String ward, String village, String next_of_kin, String kin_phone_no, String experience, String salary, String status, String candidateID, String age, String residence, Date timestamp) {
+    public Candidates(String candidate_name, String gender, String ID_no, String DOB, String mobile_no, String device_token, String profile_image, String county, String ward, String village, String next_of_kin, String kin_phone_no, String experience, String salary, String status, String candidateID, String age, String residence, String employer_name,
+                      String employer_no, String employer_county, String employer_city, String employer_ID, String working_status, Date timestamp) {
         Candidate_name = candidate_name;
         Gender = gender;
         this.ID_no = ID_no;
@@ -30,9 +33,63 @@ public class Candidates {
         CandidateID = candidateID;
         Age = age;
         Residence = residence;
+        Employer_name = employer_name;
+        Employer_no = employer_no;
+        Employer_county = employer_county;
+        Employer_city = employer_city;
+        Employer_ID = employer_ID;
+        Working_status = working_status;
         this.timestamp = timestamp;
     }
 
+
+    public String getWorking_status() {
+        return Working_status;
+    }
+
+    public void setWorking_status(String working_status) {
+        Working_status = working_status;
+    }
+
+    public String getEmployer_ID() {
+        return Employer_ID;
+    }
+
+    public void setEmployer_ID(String employer_ID) {
+        Employer_ID = employer_ID;
+    }
+
+    public String getEmployer_name() {
+        return Employer_name;
+    }
+
+    public void setEmployer_name(String employer_name) {
+        Employer_name = employer_name;
+    }
+
+    public String getEmployer_no() {
+        return Employer_no;
+    }
+
+    public void setEmployer_no(String employer_no) {
+        Employer_no = employer_no;
+    }
+
+    public String getEmployer_county() {
+        return Employer_county;
+    }
+
+    public void setEmployer_county(String employer_county) {
+        Employer_county = employer_county;
+    }
+
+    public String getEmployer_city() {
+        return Employer_city;
+    }
+
+    public void setEmployer_city(String employer_city) {
+        Employer_city = employer_city;
+    }
 
     public String getCandidate_name() {
         return Candidate_name;

@@ -84,6 +84,34 @@
                             android:id="@+id/profile"
                             android:layout_height="80dp"/>
 
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:orientation="vertical"
+                            android:layout_gravity="center"
+                            android:layout_marginStart="20dp"
+                            android:layout_height="wrap_content">
+
+
+                            <TextView
+                                android:text="Age"
+                                android:layout_gravity="center_horizontal"
+                                android:textColor="@color/primary"
+                                android:textStyle="bold"
+                                android:textSize="19dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"/>
+
+                            <TextView
+                                android:id="@+id/age"
+                                android:text="0"
+                                android:layout_gravity="center_horizontal"
+                                android:textColor="@color/black"
+                                android:textSize="18dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"/>
+
+                        </LinearLayout>
+
                     </LinearLayout>
 
 
@@ -92,6 +120,7 @@
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:orientation="horizontal"
+
                         android:layout_height="wrap_content">
 
                         <EditText
@@ -148,7 +177,6 @@
                         android:layout_width="wrap_content"
                         android:orientation="horizontal"
                         android:layout_height="wrap_content">
-
                         <EditText
                             android:id="@+id/dob"
                             android:layout_width="150dp"
@@ -156,9 +184,13 @@
                             android:inputType="date"
                             android:layout_height="wrap_content"/>
 
+
+
+
+
                         <EditText
                             android:id="@+id/mobile_no"
-                            android:layout_width="180dp"
+                            android:layout_width="150dp"
                             android:hint="Phone number*"
                             android:inputType="phone"
                             android:layout_height="wrap_content"/>

@@ -46,11 +46,42 @@
 
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginStart="10dp"
+            android:layout_height="wrap_content">
+
+            <com.getbase.floatingactionbutton.FloatingActionButton
+                android:id="@+id/add_Photo"
+                android:layout_width="wrap_content"
+                app:fab_colorNormal="@color/white"
+                app:fab_size="mini"
+                app:fab_colorPressed="@color/primary"
+                android:layout_gravity="center_horizontal"
+                app:fab_icon="@drawable/ic_add_a_photo_24"
+                android:layout_height="wrap_content"/>
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_width="60dp"
+                android:visibility="gone"
+                android:layout_gravity="center"
+                app:civ_border_color="@color/main"
+                android:src="@drawable/user"
+                app:civ_border_width="2dp"
+                android:layout_marginStart="50dp"
+                android:id="@+id/profileImage"
+                android:layout_height="60dp"/>
+        </LinearLayout>
+
+
+
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             app:cardCornerRadius="10dp"
             android:layout_margin="8dp"
+            android:layout_gravity="center"
             android:layout_height="wrap_content">
 
             <LinearLayout
@@ -221,7 +252,7 @@
                         android:layout_height="wrap_content"
                         android:textColor="@color/black"
                         android:textSize="17dp"
-                        android:drawableLeft="@drawable/ic_phone"
+                        android:drawableLeft="@drawable/ic_phone2"
                         android:textStyle="bold"
                         android:layout_margin="5dp"
                         android:text=" Contact details"/>
@@ -234,12 +265,45 @@
                         android:inputType="textEmailAddress"
                         android:layout_height="wrap_content"/>
 
-                    <EditText
-                        android:id="@+id/phone_no"
-                        android:layout_width="190dp"
-                        android:inputType="text"
-                        android:hint="Phone number*"
-                        android:layout_height="wrap_content"/>
+
+
+                    <LinearLayout
+                        android:layout_marginTop="100dp"
+                        android:layout_width="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_margin="15dp"
+                        android:layout_height="wrap_content">
+
+                        <com.hbb20.CountryCodePicker
+                            android:id="@+id/Phone_picker1"
+                            app:ccp_autoFormatNumber="false"
+                            app:ccp_textGravity="LEFT"
+                            app:ccp_showNameCode="false"
+                            app:ccp_contentColor="@color/black"
+                            app:ccp_defaultNameCode="KE"
+                            app:ccp_clickable="true"
+                            app:ccp_rememberLastSelection="true"
+                            app:ccp_showPhoneCode="true"
+                            app:ccp_autoDetectCountry="true"
+                            app:ccp_countryAutoDetectionPref="SIM_ONLY"
+                            app:ccp_autoDetectLanguage="true"
+                            android:layout_width="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_height="50dp"/>
+
+                        <EditText
+                            android:id="@+id/phone_no"
+                            android:layout_width="160dp"
+                            android:inputType="phone"
+                            android:hint="7*34**5*"
+                            android:layout_height="wrap_content"/>
+
+
+
+                    </LinearLayout>
+
+
+
 
 
                     <LinearLayout

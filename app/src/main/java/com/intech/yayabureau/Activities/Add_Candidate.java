@@ -17,7 +17,9 @@ import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -29,6 +31,7 @@ import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
@@ -39,6 +42,7 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Transaction;
 import com.google.firebase.firestore.WriteBatch;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.storage.FirebaseStorage;
@@ -63,6 +67,7 @@ import java.util.concurrent.TimeUnit;
 import de.hdodenhof.circleimageview.CircleImageView;
 import id.zelory.compressor.Compressor;
 
+import static android.content.ContentValues.TAG;
 import static com.theartofdev.edmodo.cropper.CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE;
 
 public class Add_Candidate extends AppCompatActivity {
@@ -89,6 +94,7 @@ public class Add_Candidate extends AppCompatActivity {
     int PERMISSION_ALL = 20003;
     private Bitmap compressedImageBitmap;
     String[] PERMISSIONS = {Manifest.permission.READ_EXTERNAL_STORAGE};
+    private TextView AgeText;
 
 
     @Override
@@ -116,6 +122,7 @@ public class Add_Candidate extends AppCompatActivity {
         InputWard = findViewById(R.id.home_ward);
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
+        AgeText = findViewById(R.id.age);
 
 
         UploadDetails.setOnClickListener(new View.OnClickListener() {
@@ -161,6 +168,7 @@ public class Add_Candidate extends AppCompatActivity {
                 dob = formatter.format(newDate.getTime());
                 Date now = new Date();
                 age = String.valueOf(getYear(newDate.getTime(),now));
+                AgeText.setText(age);
                 InputDOB.setText(formatter.format(newDate.getTime()));
             }
 
@@ -223,9 +231,19 @@ public class Add_Candidate extends AppCompatActivity {
         residence = InputResidence.getText().toString().trim();
         salary = InputSalary.getText().toString().trim();
 
+        InputGender.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                gender = InputGender.getSelectedItem().toString().trim();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
 
         try {
-
             Compressor compressor = new Compressor(this);
             compressor.setMaxHeight(200);
             compressor.setMaxWidth(200);
@@ -279,13 +297,18 @@ public class Add_Candidate extends AppCompatActivity {
                 store.put("Next_of_kin",nextOfKin);
                 store.put("Kin_phone_no",kinMobile);
                 store.put("Experience",experience);
-                store.put("Status","UnAvailable");
+                store.put("Status","Available");
                 store.put("timestamp",FieldValue.serverTimestamp());
                 store.put("User_ID",mAuth.getCurrentUser().getUid());
                 store.put("Salary",salary);
                 store.put("Age",age);
                 store.put("CandidateID",CandidateID);
                 store.put("Residence",residence);
+                store.put("Employer_name", "");
+                store.put("Employer_no", "");
+                store.put("Employer_county", "");
+                store.put("Employer_city", "");
+                store.put("Working_status", "");
 
                 CandidateRef.document(CandidateID).set(store).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
@@ -354,15 +377,86 @@ public class Add_Candidate extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()){
-                    ToastBack("Candidate successful registered");
+
                     progressDialog.dismiss();
-                    startActivity(new Intent(getApplicationContext(),MyCandidatesActivity.class));
+                    getAvailableCounts("Available");
+
                 }else {
                     ToastBack(task.getException().getMessage());
                     progressDialog.dismiss();
                 }
             }
         });
+    }
+
+
+    private void getAvailableCounts(String status){
+        final DocumentReference sfDocRef = db.collection("Admin").document("No_of_candidates");
+
+        if (status.equals("Available")){
+
+            db.runTransaction(new Transaction.Function<Void>() {
+                @Override
+                public Void apply(Transaction transaction) throws FirebaseFirestoreException {
+                    DocumentSnapshot snapshot = transaction.get(sfDocRef);
+
+                    // Note: this could be done without a transaction
+                    //       by updating the population using FieldValue.increment()
+                    double newPopulation = snapshot.getLong("Total_number") + 1;
+                    transaction.update(sfDocRef, "Total_number", newPopulation);
+
+                    // Success
+                    return null;
+                }
+            }).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    ToastBack("Candidate successful registered");
+                    Intent logout = new Intent(getApplicationContext(), MyCandidatesActivity.class);
+                    logout.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(logout);
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.w(TAG, "Transaction failure.", e);
+                }
+            });
+
+        }else if (status.equals("UnAvailable")){
+
+            db.runTransaction(new Transaction.Function<Void>() {
+                @Override
+                public Void apply(Transaction transaction) throws FirebaseFirestoreException {
+                    DocumentSnapshot snapshot = transaction.get(sfDocRef);
+                    // Note: this could be done without a transaction
+                    //       by updating the population using FieldValue.increment()
+                    double newPopulation = snapshot.getLong("Total_number") - 1;
+                    transaction.update(sfDocRef, "Total_number", newPopulation);
+
+                    // Success
+                    return null;
+                }
+            }).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    ToastBack("Candidate successful registered");
+                    Intent logout = new Intent(getApplicationContext(), MyCandidatesActivity.class);
+                    logout.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(logout);
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.w(TAG, "Transaction failure.", e);
+                }
+            });
+
+
+        }else {
+
+        }
+
     }
 
     public static boolean hasPermissions(Context context, String... permissions) {

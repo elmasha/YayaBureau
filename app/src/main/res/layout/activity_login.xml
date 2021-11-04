@@ -9,6 +9,7 @@
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
+        android:layout_centerInParent="true"
         android:layout_height="match_parent">
 
         <LinearLayout
@@ -119,11 +120,25 @@
                             android:layout_marginTop="16dp"/>
 
 
+                        <com.github.ybq.android.spinkit.SpinKitView
+                            xmlns:app="http://schemas.android.com/apk/res-auto"
+                            android:id="@+id/progress_VOtp"
+                            style="@style/SpinKitView.Large.RotatingCircle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:visibility="gone"
+                            android:layout_gravity="center"
+                            app:SpinKit_Color="@color/main2"
+                            android:layout_marginBottom="20dp"
+                            android:layout_below="@id/timer"
+                            android:layout_marginTop="20dp"
+                            android:layout_centerHorizontal="true"/>
+
 
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
+                            android:layout_margin="16dp"
                             android:layout_gravity="center_horizontal"
                             android:orientation="horizontal"
                             >
@@ -148,23 +163,8 @@
 
 
 
-                        <com.github.ybq.android.spinkit.SpinKitView
-                            xmlns:app="http://schemas.android.com/apk/res-auto"
-                            android:id="@+id/progress_VOtp"
-                            style="@style/SpinKitView.Large.RotatingCircle"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:visibility="gone"
-                            android:layout_gravity="center"
-                            app:SpinKit_Color="@color/main2"
-                            android:layout_marginBottom="10dp"
-                            android:layout_below="@id/timer"
-                            android:layout_marginTop="20dp"
-                            android:layout_centerHorizontal="true"/>
-
 
                     </LinearLayout>
-
 
 
                     <RelativeLayout
@@ -342,15 +342,17 @@
 
 
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:gravity="bottom|left"
-                android:layout_height="wrap_content"/>
+
 
         </LinearLayout>
 
 
     </androidx.core.widget.NestedScrollView>
-
+    <TextView
+        android:layout_width="wrap_content"
+        android:gravity="bottom|left"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_height="wrap_content"/>
 
 </RelativeLayout>

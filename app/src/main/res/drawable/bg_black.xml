@@ -5,7 +5,12 @@
         android:color="@color/black"/>
 
     <corners
-        android:bottomLeftRadius="16dp"
-        android:bottomRightRadius="16dp"/>
+        android:bottomLeftRadius="30dp"
+        android:bottomRightRadius="30dp"
+        />
+
+    <padding
+        android:bottom="10dp"/>
+
 
 </shape>

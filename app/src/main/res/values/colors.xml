@@ -10,4 +10,6 @@
     <color name="black">#1C1B2B</color>
     <color name="blackLight">#343049</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="ColorRed">#F11E1E</color>
+    <color name="ColorGreen">#29F22F</color>
 </resources>

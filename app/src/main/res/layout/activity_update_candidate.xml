@@ -7,9 +7,11 @@
     android:background="@color/black"
     tools:context=".Activities.UpdateCandidateActivity">
 
-    <RelativeLayout
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
         android:layout_marginTop="20dp"
+        android:layout_gravity="center_horizontal"
         android:layout_height="wrap_content">
 
 
@@ -30,15 +32,17 @@
 
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:orientation="vertical"
-                    android:layout_marginTop="30dp"
+                    android:background="@drawable/bg_black"
                     android:layout_gravity="center_horizontal"
                     android:layout_height="wrap_content">
 
                     <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/candidate_profile"
                         android:layout_width="120dp"
+                        app:civ_border_color="@color/primary"
+                        app:civ_border_width="2dp"
                         android:layout_gravity="center_horizontal"
                         android:layout_marginTop="9dp"
                         android:layout_height="120dp"/>
@@ -55,7 +59,7 @@
                             android:layout_height="wrap_content"
                             android:text="Elmasha  Omondi"
                             android:layout_marginTop="10dp"
-                            android:textColor="@color/grey"
+                            android:textColor="@color/primary"
                             android:textSize="19dp"
                             android:textStyle="bold" />
 
@@ -65,7 +69,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
                             android:text="23"
-                            android:textColor="@color/black"
+                            android:textColor="@color/white"
                             android:textSize="18dp"
                             android:textStyle="bold" />
 
@@ -75,12 +79,13 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
                             android:text="Available"
-                            android:textColor="@color/main2"
-                            android:textSize="19dp"
+                            android:textColor="@color/white"
+                            android:textSize="22dp"
                             android:textStyle="bold" />
 
 
                     </LinearLayout>
+
 
 
                 </LinearLayout>
@@ -89,14 +94,16 @@
 
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_gravity="center_horizontal"
                     android:orientation="vertical"
                     android:padding="8dp"
+                    android:layout_marginBottom="14dp"
                     android:layout_height="wrap_content">
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:id="@+id/StatusLayout"
+                        android:layout_width="match_parent"
                         android:orientation="vertical"
                         android:layout_height="wrap_content">
                         <TextView
@@ -108,29 +115,106 @@
                             android:layout_height="wrap_content"/>
 
                         <LinearLayout
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal">
+                            android:orientation="vertical">
 
 
                             <Spinner
                                 android:layout_width="wrap_content"
                                 android:id="@+id/select_status"
-                                android:layout_gravity="center"
                                 android:entries="@array/status"
                                 android:layout_height="40dp"/>
 
 
-                            <Button
-                                android:id="@+id/upload_candidate"
-                                android:layout_width="160dp"
-                                android:text="Update status"
-                                android:textColor="@color/black"
-                                android:layout_margin="8dp"
-                                android:textSize="16dp"
-                                android:textAllCaps="false"
-                                android:background="@drawable/btn_round_gradient"
-                                android:layout_height="40dp"/>
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:orientation="horizontal"
+                                android:layout_height="wrap_content">
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:orientation="vertical"
+                                    android:layout_margin="4dp"
+                                    android:layout_height="wrap_content">
+
+                                    <com.getbase.floatingactionbutton.FloatingActionButton
+                                        android:id="@+id/upload_candidate"
+                                        android:layout_width="wrap_content"
+                                        app:fab_size="mini"
+                                        app:fab_colorPressed="@color/black"
+                                        android:layout_gravity="center_horizontal"
+                                        app:fab_colorNormal="@color/primary"
+                                        app:fab_icon="@drawable/ic_sync"
+                                        android:layout_height="wrap_content"/>
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:text="Update"
+                                        android:textColor="@color/black"
+                                        android:layout_height="wrap_content"/>
+
+                                </LinearLayout>
+
+
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:orientation="vertical"
+                                    android:layout_margin="4dp"
+                                    android:layout_height="wrap_content">
+
+                                    <com.getbase.floatingactionbutton.FloatingActionButton
+                                        android:id="@+id/delete_candidate"
+                                        android:layout_width="wrap_content"
+                                        app:fab_size="mini"
+                                        app:fab_colorPressed="@color/black"
+                                        android:layout_gravity="center_horizontal"
+                                        app:fab_colorNormal="@color/primary"
+                                        app:fab_icon="@drawable/ic_delete"
+                                        android:layout_height="wrap_content"/>
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:text="Delete"
+                                        android:textAlignment="center"
+                                        android:layout_gravity="center_horizontal"
+                                        android:textColor="@color/black"
+                                        android:layout_height="wrap_content"/>
+
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:orientation="vertical"
+                                    android:layout_margin="4dp"
+                                    android:layout_height="wrap_content">
+
+                                    <com.getbase.floatingactionbutton.FloatingActionButton
+                                        android:id="@+id/call_candidate"
+                                        android:layout_width="wrap_content"
+                                        app:fab_size="mini"
+                                        app:fab_colorPressed="@color/black"
+                                        android:layout_gravity="center_horizontal"
+                                        app:fab_colorNormal="@color/primary"
+                                        app:fab_icon="@drawable/ic_phone"
+                                        android:layout_height="wrap_content"/>
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:text="Call"
+                                        android:textAlignment="center"
+                                        android:layout_gravity="center_horizontal"
+                                        android:textColor="@color/black"
+                                        android:layout_height="wrap_content"/>
+
+                                </LinearLayout>
+
+
+                            </LinearLayout>
+
+
+
 
 
                         </LinearLayout>
@@ -140,6 +224,16 @@
 
 
 
+
+                    <TextView
+                        android:id="@+id/more"
+                        android:textSize="18dp"
+                        android:text="Candidate Details"
+                        android:layout_margin="8dp"
+                        android:textStyle="bold"
+                        android:textColor="@color/black"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -189,7 +283,7 @@
                         android:text="072324546"
                         android:textColor="@color/grey"
                         android:layout_margin="5dp"
-                        android:drawableLeft="@drawable/ic_phone"
+                        android:drawableLeft="@drawable/ic_phone2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
 
@@ -216,46 +310,81 @@
 
 
 
-                <LinearLayout
-                    android:id="@+id/LayoutEmployer"
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_margin="5dp"
+            app:cardCornerRadius="10dp"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:id="@+id/LayoutEmployer"
+                android:layout_width="match_parent"
+                android:orientation="vertical"
+                android:padding="5dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/employerDetails"
+                    android:textSize="18dp"
+                    android:layout_margin="5dp"
+                    android:text="Employer details"
+                    android:textColor="@color/blue"
+                    android:textStyle="bold"
                     android:layout_width="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"/>
+
+
+                <TextView
+                    android:id="@+id/candidate_employer"
+                    android:textSize="18dp"
+                    android:text=""
+                    android:drawableLeft="@drawable/ic_person_24"
+                    android:layout_margin="5dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+
+                <TextView
+                    android:id="@+id/employer_contact"
+                    android:textSize="18dp"
+                    android:text=""
+                    android:drawableLeft="@drawable/ic_contact_phone"
+                    android:drawableTint="@color/black"
+                    android:layout_margin="5dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+
+
+
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:orientation="horizontal">
+
+
                     <TextView
-                        android:id="@+id/employerDetails"
+                        android:id="@+id/employer_county"
                         android:textSize="18dp"
-                        android:layout_margin="5dp"
-                        android:text="Employer details"
-                        android:textColor="@color/blue"
-                        android:textStyle="bold"
+                        android:text=""
+                        android:textColor="@color/grey"
+                        android:drawableLeft="@drawable/ic_location"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
 
 
                     <TextView
-                        android:id="@+id/candidate_employer"
+                        android:id="@+id/employer_city"
                         android:textSize="18dp"
                         android:text=""
-                        android:layout_margin="5dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
-
-
-                    <TextView
-                        android:id="@+id/employer_contact"
-                        android:textSize="18dp"
-                        android:text=""
-                        android:layout_margin="5dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
-
-
-                    <TextView
-                        android:id="@+id/candidate_city"
-                        android:textSize="18dp"
-                        android:text=""
-                        android:layout_margin="5dp"
+                        android:layout_marginStart="5dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
 
@@ -265,13 +394,12 @@
 
 
 
-
             </LinearLayout>
+
 
         </androidx.cardview.widget.CardView>
 
-
-    </RelativeLayout>
+    </LinearLayout>
 
 
 

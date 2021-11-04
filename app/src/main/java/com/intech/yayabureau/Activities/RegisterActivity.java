@@ -1,13 +1,18 @@
 package com.intech.yayabureau.Activities;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
+import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -17,8 +22,10 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.github.ybq.android.spinkit.style.DoubleBounce;
 import com.github.ybq.android.spinkit.style.ThreeBounce;
+import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
@@ -31,11 +38,27 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+import com.hbb20.CountryCodePicker;
 import com.intech.yayabureau.R;
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Locale;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
+
+import de.hdodenhof.circleimageview.CircleImageView;
+import id.zelory.compressor.Compressor;
+
+import static com.intech.yayabureau.Activities.Add_Candidate.hasPermissions;
+import static com.theartofdev.edmodo.cropper.CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE;
 
 public class RegisterActivity extends AppCompatActivity {
     FirebaseAuth  mAuth;
@@ -57,6 +80,18 @@ public class RegisterActivity extends AppCompatActivity {
     private long mTimeLeftInMillis = START_TIME_IN_MILLIS_COUNT;
     private ProgressDialog progressDialog2,progressDialog;
     private TextView toLogin,toMain;
+    private CountryCodePicker CodePicker;
+    private FloatingActionButton add_profile;
+    private CircleImageView imageView;
+
+    private Uri ImageUri;
+    private UploadTask uploadTask;
+    FirebaseStorage storage;
+    StorageReference storageReference;
+    int PERMISSION_ALL = 20003;
+    private Bitmap compressedImageBitmap;
+    String[] PERMISSIONS = {Manifest.permission.READ_EXTERNAL_STORAGE};
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,7 +113,29 @@ public class RegisterActivity extends AppCompatActivity {
         btnRegister = findViewById(R.id.Btn_register);
         toLogin = findViewById(R.id.ToLogin);
         toMain = findViewById(R.id.BackToMain2);
+        CodePicker = findViewById(R.id.Phone_picker1);
+        add_profile = findViewById(R.id.add_Photo);
+        imageView = findViewById(R.id.profileImage);
 
+        CodePicker.registerCarrierNumberEditText(Telephone);
+        CodePicker.getDefaultCountryCode();
+        ///---initiate Storage
+        storage = FirebaseStorage.getInstance();
+        storageReference = storage.getReference();
+
+        add_profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(!hasPermissions(getApplicationContext(), PERMISSIONS)){
+                    ActivityCompat.requestPermissions(RegisterActivity.this, PERMISSIONS, PERMISSION_ALL);
+                }else {
+                    CropImage.activity().setGuidelines(CropImageView.Guidelines.ON)
+                            .setMinCropResultSize(512,512)
+                            .setAspectRatio(1,1)
+                            .start(RegisterActivity.this);
+                }
+            }
+        });
 
         toMain.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -103,7 +160,7 @@ public class RegisterActivity extends AppCompatActivity {
                     progressDialog2 = new ProgressDialog(RegisterActivity.this);
                     progressDialog2.setMessage("Please wait");
                     progressDialog2.show();
-//                    phoneNO = phoneNumber.getFullNumberWithPlus();
+                    telephone = CodePicker.getFullNumberWithPlus();
                     PhoneAuthProvider.getInstance().verifyPhoneNumber(
                             telephone,
                             60,
@@ -183,41 +240,111 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void Register_Bureau(String uid) {
-        String token_Id = FirebaseInstanceId.getInstance().getToken();
-        HashMap<String,Object> registerB = new HashMap<>();
-        registerB.put("Name", firstName +" "+ middleName +" "+ lastName);
-        registerB.put("Bureau_Name",bureauName);
-        registerB.put("ID_no",idNumber);
-        registerB.put("Building",buildingName);
-        registerB.put("Street_name",streetName);
-        registerB.put("City",city);
-        registerB.put("County",county);
-        registerB.put("Email",email);
-        registerB.put("Box_No",boxNO);
-        registerB.put("Postal_code",postalCode);
-        registerB.put("Phone_NO",telephone);
-        registerB.put("device_token",token_Id);
-        registerB.put("No_of_candidates",0);
-        registerB.put("RegistrationFee","0");
-        registerB.put("timestamp", FieldValue.serverTimestamp());
+        File newimage = new File(ImageUri.getPath());
+        try {
+            Compressor compressor = new Compressor(this);
+            compressor.setMaxHeight(200);
+            compressor.setMaxWidth(200);
+            compressor.setQuality(10);
+            compressedImageBitmap = compressor.compressToBitmap(newimage);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-        BureauRef.document(uid).set(registerB).addOnCompleteListener(new OnCompleteListener<Void>() {
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        compressedImageBitmap.compress(Bitmap.CompressFormat.JPEG,100,baos);
+        final byte[] data = baos.toByteArray();
+
+
+        final StorageReference ref = storageReference.child("Users/thumbs" + UUID.randomUUID().toString());
+        uploadTask = ref.putBytes(data);
+
+        uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
             @Override
-            public void onComplete(@NonNull Task<Void> task) {
+            public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                if (!task.isSuccessful()) {
+                    throw task.getException();
+                }
+
+                // Continue with the task to get the download URL
+                return ref.getDownloadUrl();
+            }
+        }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+            @Override
+            public void onComplete(@NonNull Task<Uri> task) {
                 if (task.isSuccessful()){
-                    ToastBack("Registration successful");
-                    Intent toreg = new Intent(getApplicationContext(),MyCandidatesActivity.class);
-                    startActivity(toreg);
-                    finish();
+                    Uri downloadUri = task.getResult();
+                    String profileImage = downloadUri.toString();
+
+                    String token_Id = FirebaseInstanceId.getInstance().getToken();
+                    HashMap<String,Object> registerB = new HashMap<>();
+                    registerB.put("Name", firstName +" "+ middleName +" "+ lastName);
+                    registerB.put("Bureau_Name",bureauName);
+                    registerB.put("Bureau_Image",profileImage);
+                    registerB.put("ID_no",idNumber);
+                    registerB.put("Building",buildingName);
+                    registerB.put("Street_name",streetName);
+                    registerB.put("City",city);
+                    registerB.put("County",county);
+                    registerB.put("Email",email);
+                    registerB.put("Box_No",boxNO);
+                    registerB.put("Postal_code",postalCode);
+                    registerB.put("Phone_NO",telephone);
+                    registerB.put("device_token",token_Id);
+                    registerB.put("No_of_candidates",0);
+                    registerB.put("RegistrationFee","0");
+                    registerB.put("timestamp", FieldValue.serverTimestamp());
+
+                    BureauRef.document(uid).set(registerB).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()){
+                                ToastBack("Registration successful");
+                                Intent toreg = new Intent(getApplicationContext(),MyCandidatesActivity.class);
+                                startActivity(toreg);
+                                finish();
+                            }else {
+                                ToastBack(task.getException().getMessage());
+                            }
+                        }
+                    });
+
+
+
+
                 }else {
+
                     ToastBack(task.getException().getMessage());
                 }
             }
         });
 
 
+
+
     }
 
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK)
+            switch (requestCode) {
+                case CROP_IMAGE_ACTIVITY_REQUEST_CODE:
+                    CropImage.ActivityResult result = CropImage.getActivityResult(data);
+                    //data.getData returns the content URI for the selected Image
+                    ImageUri = result.getUri();
+                    if (ImageUri != null){
+                        imageView.setVisibility(View.VISIBLE);
+                        imageView.setImageURI(ImageUri);
+                        add_profile.setVisibility(View.GONE);
+                    }
+
+                    break;
+            }
+    }
 
     private EditText code1;
     private ProgressBar progressBar_verify;

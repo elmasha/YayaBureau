@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
@@ -35,13 +36,13 @@ import javax.annotation.Nullable;
 
 public class CandidatesFragment extends Fragment {
 View root;
-    private ImageView imageView;
+    private LinearLayout imageView;
     private SwipeRefreshLayout swipeRefreshLayout;
     FirebaseAuth mAuth;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     CollectionReference BureauRef = db.collection("Yaya_Bureau");
     CollectionReference CandidateRef = db.collection("Yaya_Candidates");
-    private TextView textUser,textEmail,textBureauName;
+    private TextView textUser,textEmail,textBureauName,countCandidate;
     private FloatingActionButton addCandidate;
     private CandidateAdapter adapter;
     private RecyclerView mRecyclerView;
@@ -62,6 +63,7 @@ View root;
         imageView = root.findViewById(R.id.files);
         swipeRefreshLayout = root.findViewById(R.id.SwipeRefresh);
         mRecyclerView = root.findViewById(R.id.recycler_candidate);
+        countCandidate = root.findViewById(R.id.C_Count);
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -150,6 +152,7 @@ View root;
                     textUser.setText(userName);
                     textEmail.setText(email);
                     textBureauName.setText(BureauName);
+                    countCandidate.setText(noOfCandidates+"");
                 }
             }
         });

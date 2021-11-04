@@ -6,7 +6,7 @@ public class Bureau {
 
 
         private String Name, Bureau_Name, ID_no, Building, Street_name, City,
-                County, Email, Box_No, Postal_code,Phone_NO, device_token, RegistrationFee;
+                County, Email, Box_No, Postal_code,Phone_NO, device_token, RegistrationFee,Bureau_Image;
         private long No_of_candidates;
         private Date timestamp;
 
@@ -15,7 +15,7 @@ public class Bureau {
     }
 
     public Bureau(String name, String bureau_Name, String ID_no, String building, String street_name, String city, String county, String email, String box_No, String postal_code,
-                  String phone_NO, String device_token, String registrationFee, long no_of_candidates, Date timestamp) {
+                  String phone_NO, String device_token, String registrationFee, String bureau_Image, long no_of_candidates, Date timestamp) {
         Name = name;
         Bureau_Name = bureau_Name;
         this.ID_no = ID_no;
@@ -29,8 +29,17 @@ public class Bureau {
         Phone_NO = phone_NO;
         this.device_token = device_token;
         RegistrationFee = registrationFee;
+        Bureau_Image = bureau_Image;
         No_of_candidates = no_of_candidates;
         this.timestamp = timestamp;
+    }
+
+    public String getBureau_Image() {
+        return Bureau_Image;
+    }
+
+    public void setBureau_Image(String bureau_Image) {
+        Bureau_Image = bureau_Image;
     }
 
     public String getName() {

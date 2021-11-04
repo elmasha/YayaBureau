@@ -9,7 +9,7 @@
     </string-array>
 
     <string-array name="status">
-        <item>Select status</item>
+        <item>Update status</item>
         <item>Available</item>
         <item>UnAvailable</item>
     </string-array>

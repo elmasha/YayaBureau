@@ -43,16 +43,33 @@
                     android:layout_height="wrap_content"/>
 
 
-                <TextView
-                    android:id="@+id/row_age"
+                <LinearLayout
                     android:layout_width="wrap_content"
-                    android:text="23"
-                    android:textSize="15dp"
+                    android:orientation="horizontal"
                     android:layout_gravity="center_horizontal"
-                    android:textColor="@color/blue"
-                    android:textStyle="bold"
-                    android:textAlignment="center"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:text="Age:"
+                        android:textSize="16dp"
+                        android:layout_height="wrap_content"/>
+
+                    <TextView
+                        android:id="@+id/row_age"
+                        android:layout_width="wrap_content"
+                        android:text="23"
+                        android:textSize="15dp"
+                        android:textColor="@color/blue"
+                        android:textStyle="bold"
+                        android:layout_marginStart="5dp"
+                        android:textAlignment="center"
+                        android:layout_height="wrap_content"/>
+
+                </LinearLayout>
+
+
+
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:orientation="horizontal"
@@ -73,6 +90,8 @@
                         android:text="kabiria"
                         android:layout_gravity="center_horizontal"
                         android:layout_width="wrap_content"
+                        android:ellipsize="end"
+                        android:maxLines="1"
                         android:layout_marginStart="5dp"
                         android:textAlignment="center"
                         android:layout_height="wrap_content"/>
@@ -84,6 +103,13 @@
                     android:layout_width="wrap_content"
                     android:text="073828829"
                     android:textColor="@color/black"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:id="@+id/row_status"
+                    android:layout_width="wrap_content"
+                    android:text=""
+                    android:textStyle="bold"
                     android:layout_gravity="center_horizontal"
                     android:layout_height="wrap_content"/>
 

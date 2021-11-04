@@ -2,6 +2,7 @@ package com.intech.yayabureau.Adapters;
 
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,6 +40,15 @@ public class CandidateAdapter extends FirestoreRecyclerAdapter<Candidates, Candi
         holder.ward.setText(model.getWard());
         holder.mobile.setText(model.getMobile_no());
         holder.age.setText(model.getAge()+" yrs");
+        holder.status.setText(model.getStatus());
+
+        if (model.getStatus().equals("Available"))
+        {
+            holder.status.setTextColor(Color.parseColor("#29F22F"));
+        }else if (model.getStatus().equals("UnAvailable"))
+        {
+            holder.status.setTextColor(Color.parseColor("#F11E1E"));
+        }
 
         if(context != null | model.getProfile_image() != null) {
             Picasso.with(context).load(model.getProfile_image()).placeholder(R.drawable.load).error(R.drawable.errorimage).into(holder.profile);
@@ -64,7 +74,7 @@ public class CandidateAdapter extends FirestoreRecyclerAdapter<Candidates, Candi
     }
 
     class CandidateViewHolder extends RecyclerView.ViewHolder{
-       private TextView Name, county, ward,mobile,age;
+       private TextView Name, county, ward,mobile,age,status;
        private CircleImageView profile;
        private View view;
 
@@ -78,6 +88,7 @@ public class CandidateAdapter extends FirestoreRecyclerAdapter<Candidates, Candi
             mobile = itemView.findViewById(R.id.row_mobile);
             profile = itemView.findViewById(R.id.row_image);
             age = itemView.findViewById(R.id.row_age);
+            status = itemView.findViewById(R.id.row_status);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
