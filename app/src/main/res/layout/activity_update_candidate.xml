@@ -120,17 +120,19 @@
                             android:orientation="vertical">
 
 
-                            <Spinner
-                                android:layout_width="wrap_content"
-                                android:id="@+id/select_status"
-                                android:entries="@array/status"
-                                android:layout_height="40dp"/>
-
 
                             <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:orientation="horizontal"
                                 android:layout_height="wrap_content">
+
+
+                                <Spinner
+                                    android:layout_width="wrap_content"
+                                    android:id="@+id/select_status"
+                                    android:entries="@array/status"
+                                    android:layout_height="40dp"/>
+
 
                                 <LinearLayout
                                     android:layout_width="wrap_content"
@@ -148,13 +150,22 @@
                                         app:fab_icon="@drawable/ic_sync"
                                         android:layout_height="wrap_content"/>
 
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:text="Update"
-                                        android:textColor="@color/black"
-                                        android:layout_height="wrap_content"/>
+
 
                                 </LinearLayout>
+
+
+
+                            </LinearLayout>
+
+
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:orientation="horizontal"
+                                android:layout_height="wrap_content">
+
+
 
 
 
@@ -210,6 +221,32 @@
 
                                 </LinearLayout>
 
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:orientation="vertical"
+                                    android:layout_margin="4dp"
+                                    android:layout_height="wrap_content">
+
+                                    <com.getbase.floatingactionbutton.FloatingActionButton
+                                        android:id="@+id/edit_candidate"
+                                        android:layout_width="wrap_content"
+                                        app:fab_size="mini"
+                                        app:fab_colorPressed="@color/black"
+                                        android:layout_gravity="center_horizontal"
+                                        app:fab_colorNormal="@color/primary"
+                                        app:fab_icon="@drawable/ic_edit"
+                                        android:layout_height="wrap_content"/>
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:text="Edit"
+                                        android:textAlignment="center"
+                                        android:layout_gravity="center_horizontal"
+                                        android:textColor="@color/black"
+                                        android:layout_height="wrap_content"/>
+
+                                </LinearLayout>
+
 
                             </LinearLayout>
 
@@ -225,86 +262,232 @@
 
 
 
-                    <TextView
-                        android:id="@+id/more"
-                        android:textSize="18dp"
-                        android:text="Candidate Details"
-                        android:layout_margin="8dp"
-                        android:textStyle="bold"
-                        android:textColor="@color/black"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
-
                     <LinearLayout
+                        android:id="@+id/MyDetails"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
-                        android:orientation="horizontal">
-
+                        android:visibility="gone"
+                        android:orientation="vertical"
+                        android:layout_height="wrap_content">
 
                         <TextView
-                            android:id="@+id/candidate_county"
+                            android:id="@+id/more"
                             android:textSize="18dp"
-                            android:text="Nairobi"
-                            android:textColor="@color/grey"
-                            android:drawableLeft="@drawable/ic_location"
+                            android:text="Candidate Details"
+                            android:layout_margin="8dp"
+                            android:textStyle="bold"
+                            android:textColor="@color/black"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"/>
 
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="5dp"
+                            android:orientation="horizontal">
+
+
+                            <TextView
+                                android:id="@+id/candidate_county"
+                                android:textSize="18dp"
+                                android:text="Nairobi"
+                                android:textColor="@color/grey"
+                                android:drawableLeft="@drawable/ic_location"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"/>
+
+
+                            <TextView
+                                android:id="@+id/candidate_ward"
+                                android:textSize="18dp"
+                                android:text=""
+                                android:textColor="@color/grey"
+                                android:layout_marginStart="5dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"/>
+
+
+                        </LinearLayout>
 
                         <TextView
-                            android:id="@+id/candidate_ward"
+                            android:id="@+id/candidate_id"
                             android:textSize="18dp"
-                            android:text=""
+                            android:text="3445353453"
+                            android:layout_margin="5dp"
                             android:textColor="@color/grey"
-                            android:layout_marginStart="5dp"
+                            android:drawableLeft="@drawable/ic_portrait"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+                        <TextView
+                            android:id="@+id/candidate_phone"
+                            android:textSize="18dp"
+                            android:text="072324546"
+                            android:textColor="@color/grey"
+                            android:layout_margin="5dp"
+                            android:drawableLeft="@drawable/ic_phone2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+                        <TextView
+                            android:id="@+id/candidate_salary"
+                            android:textSize="18dp"
+                            android:text="5000"
+                            android:textColor="@color/blue"
+                            android:layout_margin="5dp"
+                            android:drawableLeft="@drawable/ic_monetization"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+                        <TextView
+                            android:id="@+id/candidate_residence"
+                            android:textSize="18dp"
+                            android:layout_margin="5dp"
+                            android:text=""
+                            android:drawableLeft="@drawable/ic_home"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"/>
 
 
                     </LinearLayout>
 
-
-
-                    <TextView
-                        android:id="@+id/candidate_id"
-                        android:textSize="18dp"
-                        android:text="3445353453"
-                        android:layout_margin="5dp"
-                        android:textColor="@color/grey"
-                        android:drawableLeft="@drawable/ic_portrait"
+                    <LinearLayout
+                        android:id="@+id/EditMyDetails"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        android:orientation="vertical"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:textSize="18dp"
+                            android:text="Edit Details"
+                            android:layout_margin="8dp"
+                            android:textStyle="bold"
+                            android:textColor="@color/black"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="5dp"
+                            android:orientation="horizontal">
 
 
-                    <TextView
-                        android:id="@+id/candidate_phone"
-                        android:textSize="18dp"
-                        android:text="072324546"
-                        android:textColor="@color/grey"
-                        android:layout_margin="5dp"
-                        android:drawableLeft="@drawable/ic_phone2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                            <EditText
+                                android:id="@+id/edit_name"
+                                android:textSize="18dp"
+                                android:text=""
+                                android:hint="Enter Firstnmae"
+                                android:textColor="@color/grey"
+                                android:drawableLeft="@drawable/ic_person_24"
+                                android:layout_width="180dp"
+                                android:layout_height="wrap_content"/>
 
-                    <TextView
-                        android:id="@+id/candidate_salary"
-                        android:textSize="18dp"
-                        android:text="5000"
-                        android:textColor="@color/blue"
-                        android:layout_margin="5dp"
-                        android:drawableLeft="@drawable/ic_monetization"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
 
-                    <TextView
-                        android:id="@+id/candidate_residence"
-                        android:textSize="18dp"
-                        android:layout_margin="5dp"
-                        android:text=""
-                        android:drawableLeft="@drawable/ic_home"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                            <EditText
+                                android:id="@+id/edit_second"
+                                android:textSize="18dp"
+                                android:text=""
+                                android:hint="Enter second"
+                                android:textColor="@color/grey"
+                                android:layout_marginStart="5dp"
+                                android:layout_width="180dp"
+                                android:layout_height="wrap_content"/>
+
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="5dp"
+                            android:orientation="horizontal">
+
+
+                            <EditText
+                                android:id="@+id/edit_county"
+                                android:textSize="18dp"
+                                android:text="Nairobi"
+                                android:hint="Enter County"
+                                android:textColor="@color/grey"
+                                android:drawableLeft="@drawable/ic_location"
+                                android:layout_width="150dp"
+                                android:layout_height="wrap_content"/>
+
+
+                            <EditText
+                                android:id="@+id/edit_ward"
+                                android:textSize="18dp"
+                                android:text="Kabiria"
+                                android:hint="Enter Ward"
+                                android:textColor="@color/grey"
+                                android:layout_marginStart="5dp"
+                                android:layout_width="150dp"
+                                android:layout_height="wrap_content"/>
+
+
+                        </LinearLayout>
+
+                        <EditText
+                            android:id="@+id/edit_id"
+                            android:textSize="18dp"
+                            android:text="3445353453"
+                            android:hint="Enter ID"
+                            android:layout_margin="5dp"
+                            android:textColor="@color/grey"
+                            android:drawableLeft="@drawable/ic_portrait"
+                            android:layout_width="150dp"
+                            android:layout_height="wrap_content"/>
+
+                        <EditText
+                            android:id="@+id/edit_phone"
+                            android:textSize="18dp"
+                            android:text="072324546"
+                            android:textColor="@color/grey"
+                            android:hint="Enter Phone No."
+                            android:layout_margin="5dp"
+                            android:drawableLeft="@drawable/ic_phone2"
+                            android:layout_width="150dp"
+                            android:layout_height="wrap_content"/>
+
+                        <EditText
+                            android:id="@+id/edit_salary"
+                            android:textSize="18dp"
+                            android:text="5000"
+                            android:hint="Enter salary"
+                            android:textColor="@color/blue"
+                            android:layout_margin="5dp"
+                            android:drawableLeft="@drawable/ic_monetization"
+                            android:layout_width="150dp"
+                            android:layout_height="wrap_content"/>
+
+                        <EditText
+                            android:id="@+id/edit_residence"
+                            android:textSize="18dp"
+                            android:layout_margin="5dp"
+                            android:text=""
+                            android:drawableLeft="@drawable/ic_home"
+                            android:layout_width="150dp"
+                            android:layout_height="wrap_content"/>
+
+                        <Button
+                            android:id="@+id/Btn_saveEdits"
+                            android:layout_width="200dp"
+                            android:text="Save changes"
+                            android:textColor="@color/black"
+                            android:layout_margin="5dp"
+                            android:textSize="19dp"
+                            android:textStyle="bold"
+                            android:textAllCaps="false"
+                            android:layout_gravity="center_horizontal"
+                            android:background="@drawable/btn_round_gradient"
+                            android:layout_height="wrap_content"/>
+
+
+
+
+                    </LinearLayout>
+
+
 
                 </LinearLayout>
 

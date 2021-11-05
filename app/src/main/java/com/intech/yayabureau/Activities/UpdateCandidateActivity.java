@@ -69,16 +69,19 @@ public class UpdateCandidateActivity extends AppCompatActivity {
             DOB,FirstName,Mobile,County
             ,Ward,Status,Employer,EmployerCounty,EmployerCity,EmployerNo,City,Salary,ID_no,Residence;
     private Spinner CandidateStatus;
+    private EditText EditName,EditSecName,EditCounty,EditWard,EditNo,EditResidence;
 
     private CircleImageView candidateProfile;
     private String firstName,image,status,mobile,county,ward,UpdateStatus,
             village,nextOfKin,kinMobile,experience,salary,residence,dob,idNo,gender,age,eCounty,eCity,ePhone,eName;
-    private FloatingActionButton  deleteCandidate,updateCandidate,callCandidate;
-    private LinearLayout employerDetails,StatusLayout;
+    private FloatingActionButton  deleteCandidate,updateCandidate,callCandidate,editCandidate;
+    private LinearLayout employerDetails,StatusLayout,EditMyDetails,MyDetails;
     int PERMISSION_ALL = 20003;
     private Bitmap compressedImageBitmap;
     String[] PERMISSIONS = {android.Manifest.permission.CALL_PHONE, Manifest.permission.SEND_SMS};
     private LinearLayout linearLayoutDeal;
+    private Button Btn_SaveChanges;
+    private int EditState = 0;
 
 
     @Override
@@ -108,9 +111,42 @@ public class UpdateCandidateActivity extends AppCompatActivity {
       EmployerCity = findViewById(R.id.employer_city);
       StatusLayout = findViewById(R.id.StatusLayout);
       callCandidate = findViewById(R.id.call_candidate);
+      editCandidate = findViewById(R.id.edit_candidate);
+      ///Edits
+        EditMyDetails = findViewById(R.id.EditMyDetails);
+        MyDetails = findViewById(R.id.MyDetails);
+        EditName = findViewById(R.id.edit_name);
+        EditSecName = findViewById(R.id.edit_second);
+        EditCounty = findViewById(R.id.edit_county);
+        EditWard = findViewById(R.id.edit_ward);
+        EditNo = findViewById(R.id.edit_phone);
+        EditResidence = findViewById(R.id.edit_residence);
+        Btn_SaveChanges = findViewById(R.id.Btn_saveEdits);
 
 
-      callCandidate.setOnClickListener(new View.OnClickListener() {
+        Btn_SaveChanges.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+
+        editCandidate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(EditState == 0){
+                    MyDetails.setVisibility(View.GONE);
+                    EditMyDetails.setVisibility(View.VISIBLE);
+                    EditState = 1;
+                }else if (EditState == 1){
+
+                }
+            }
+        });
+
+
+        callCandidate.setOnClickListener(new View.OnClickListener() {
           @Override
           public void onClick(View view) {
 
@@ -291,6 +327,12 @@ public class UpdateCandidateActivity extends AppCompatActivity {
                     EmployerNo.setText(ePhone);
                     EmployerCounty.setText(eCounty);
                     EmployerCity.setText(eCity);
+
+                    EditName.setText(firstName);
+                    EditCounty.setText(county);
+                    EditNo.setText(mobile);
+                    EditResidence.setText(residence);
+                    EditWard.setText(ward);
                     Picasso.with(getApplicationContext()).load(image).placeholder(R.drawable.load).error(R.drawable.user).into(candidateProfile);
 
 
