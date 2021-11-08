@@ -110,54 +110,50 @@
 
                     </LinearLayout>
 
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="8dp"
+                        android:layout_height="wrap_content">
+
+
+                        <TextView
+                            android:id="@+id/B_CandidateCount"
+                            android:textColor="@color/primary"
+                            android:text=""
+                            android:drawableLeft="@drawable/ic_group"
+                            android:textStyle="bold"
+                            android:textSize="19dp"
+                            android:drawableTint="@color/primary"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+                        <TextView
+                            android:id="@+id/B_Candidate"
+                            android:text="Candidates"
+                            android:textStyle="bold"
+                            android:textSize="17dp"
+                            android:paddingStart="5dp"
+                            android:textColor="@color/lightGrey"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+
+                    </LinearLayout>
+
                 </LinearLayout>
 
 
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:orientation="horizontal"
-                android:layout_marginTop="8dp"
-                android:layout_marginStart="12dp"
-                android:layout_height="wrap_content">
 
-
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="8dp"
-                    android:layout_height="wrap_content">
-
-
-                    <TextView
-                        android:id="@+id/B_CandidateCount"
-                        android:textColor="@color/blue"
-                        android:text=""
-                        android:drawableLeft="@drawable/ic_group"
-                        android:textStyle="bold"
-                        android:textSize="19dp"
-                        android:drawableTint="@color/primary"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
-
-                    <TextView
-                        android:id="@+id/B_Candidate"
-                        android:text="My candidates"
-                        android:textStyle="bold"
-                        android:textSize="17dp"
-                        android:paddingStart="5dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
-
-
-                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:orientation="vertical"
                     android:layout_margin="4dp"
-                    android:layout_gravity="end"
+                    android:layout_gravity="center_horizontal"
                     android:layout_height="wrap_content">
 
                     <com.getbase.floatingactionbutton.FloatingActionButton
@@ -178,125 +174,315 @@
                         android:textColor="@color/black"
                         android:layout_height="wrap_content"/>
 
+
+
+
+
+
                 </LinearLayout>
 
 
 
-            </LinearLayout>
-
 
             <LinearLayout
+                android:id="@+id/ProfileDetails"
                 android:layout_width="match_parent"
                 android:orientation="vertical"
-                android:layout_marginTop="8dp"
-                android:layout_marginStart="12dp"
                 android:layout_height="wrap_content">
-
-                <TextView
-                    android:textStyle="bold"
-                    android:textColor="@color/black"
-                    android:text="Contact details."
-                    android:textSize="19dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-
-                <TextView
-                    android:id="@+id/B_phone"
-                    android:textColor="@color/grey"
-                    android:text="072385949"
-                    android:textSize="19dp"
-                    android:drawableLeft="@drawable/ic_phone2"
-                    android:drawableTint="@color/primary"
-                    android:layout_marginTop="10dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-
-
-
-
-
-                <TextView
-                    android:id="@+id/B_boxNo"
-                    android:textColor="@color/grey"
-                    android:text=" Box No. 282792"
-                    android:textSize="17dp"
-                    android:drawableTint="@color/primary"
-                    android:drawableLeft="@drawable/ic_mailbox"
-                    android:layout_marginTop="5dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-
-
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:orientation="vertical"
-                android:layout_marginTop="10dp"
-                android:layout_marginStart="12dp"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:textStyle="bold"
-                    android:textColor="@color/black"
-                    android:text="Physical Address."
-                    android:textSize="19dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-
-                <TextView
-                    android:id="@+id/B_buildingName"
-                    android:textColor="@color/grey"
-                    android:text=" Sk"
-                    android:drawableLeft="@drawable/ic_home"
-                    android:textSize="17dp"
-                    android:layout_marginTop="10dp"
-                    android:drawableTint="@color/primary"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-
-                <TextView
-                    android:id="@+id/B_street"
-                    android:textColor="@color/grey"
-                    android:text="Satellite"
-                    android:textSize="17dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginBottom="18dp"
+                    android:layout_width="match_parent"
+                    android:orientation="vertical"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginStart="12dp"
                     android:layout_height="wrap_content">
 
                     <TextView
-                        android:id="@+id/B_county"
-                        android:textColor="@color/grey"
-                        android:text="Nairobi"
-                        android:drawableLeft="@drawable/ic_location"
-                        android:drawableTint="@color/primary"
-                        android:textSize="17dp"
+                        android:textStyle="bold"
+                        android:textColor="@color/black"
+                        android:text="Contact details."
+                        android:textSize="19dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
+
+                    <TextView
+                        android:id="@+id/B_phone"
+                        android:textColor="@color/grey"
+                        android:text="072385949"
+                        android:textSize="19dp"
+                        android:drawableLeft="@drawable/ic_phone2"
+                        android:drawableTint="@color/primary"
+                        android:layout_marginTop="10dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+
+
 
 
                     <TextView
-                        android:id="@+id/B_estate"
+                        android:id="@+id/B_boxNo"
                         android:textColor="@color/grey"
-                        android:text="Kabiria"
+                        android:text=" Box No. 282792"
                         android:textSize="17dp"
-                        android:layout_marginStart="5dp"
+                        android:drawableTint="@color/primary"
+                        android:drawableLeft="@drawable/ic_mailbox"
+                        android:layout_marginTop="5dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
+
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:orientation="vertical"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginStart="12dp"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:textStyle="bold"
+                        android:textColor="@color/black"
+                        android:text="Physical Address."
+                        android:textSize="19dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/B_buildingName"
+                            android:textColor="@color/grey"
+                            android:text=" Sk"
+                            android:drawableLeft="@drawable/ic_home"
+                            android:textSize="17dp"
+                            android:drawableTint="@color/primary"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+                        <TextView
+                            android:id="@+id/B_street"
+                            android:textColor="@color/grey"
+                            android:text="Satellite"
+                            android:textSize="17dp"
+                            android:layout_marginStart="10dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+                    </LinearLayout>
+
+
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="18dp"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/B_county"
+                            android:textColor="@color/grey"
+                            android:text="Nairobi"
+                            android:drawableLeft="@drawable/ic_location"
+                            android:drawableTint="@color/primary"
+                            android:textSize="17dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+
+                        <TextView
+                            android:id="@+id/B_estate"
+                            android:textColor="@color/grey"
+                            android:text="Kabiria"
+                            android:textSize="17dp"
+                            android:layout_marginStart="5dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+
+
+            </LinearLayout>
+
+
+
+            <LinearLayout
+                android:id="@+id/ProfileEditDetails"
+                android:layout_width="match_parent"
+                android:orientation="vertical"
+                android:visibility="gone"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:orientation="vertical"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginStart="12dp"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:textStyle="bold"
+                        android:textColor="@color/black"
+                        android:text="Edit contact details."
+                        android:textSize="19dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+
+
+
+                        <EditText
+                            android:id="@+id/BEdit_name"
+                            android:textColor="@color/grey"
+                            android:text=""
+                            android:textSize="19dp"
+                            android:hint="Enter full name"
+                            android:layout_marginTop="10dp"
+                            android:layout_width="160dp"
+                            android:layout_height="wrap_content"/>
+
+                        <EditText
+                            android:id="@+id/BEdit_phone"
+                            android:textColor="@color/grey"
+                            android:hint="072385949"
+                            android:textSize="19dp"
+                            android:drawableLeft="@drawable/ic_phone2"
+                            android:drawableTint="@color/primary"
+                            android:layout_marginTop="10dp"
+                            android:layout_width="200dp"
+                            android:layout_height="wrap_content"/>
+
+
+
+
+                    <EditText
+                        android:id="@+id/BEdit_email"
+                        android:textColor="@color/grey"
+                        android:hint="Enter email"
+                        android:textSize="19dp"
+                        android:drawableLeft="@drawable/ic_email"
+                        android:drawableTint="@color/primary"
+                        android:layout_marginTop="10dp"
+                        android:layout_width="180dp"
+                        android:inputType="textEmailAddress"
+                        android:layout_height="wrap_content"/>
+
+
+                    <EditText
+                        android:id="@+id/BEdit_BName"
+                        android:textColor="@color/grey"
+                        android:text=""
+                        android:hint="Enter Bureau name"
+                        android:textSize="19dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_width="180dp"
+                        android:layout_height="wrap_content"/>
+
 
 
 
                 </LinearLayout>
 
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:orientation="vertical"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginStart="12dp"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:textStyle="bold"
+                        android:textColor="@color/black"
+                        android:text="Edit physical Address."
+                        android:textSize="19dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <EditText
+                        android:id="@+id/BEdit_buildingName"
+                        android:textColor="@color/grey"
+                        android:hint="Enter rsidence"
+                        android:drawableLeft="@drawable/ic_home"
+                        android:textSize="17dp"
+                        android:layout_marginTop="10dp"
+                        android:drawableTint="@color/primary"
+                        android:layout_width="170dp"
+                        android:layout_height="wrap_content"/>
+
+                    <EditText
+                        android:id="@+id/BEdit_street"
+                        android:textColor="@color/grey"
+                        android:text="Satellite"
+                        android:textSize="17dp"
+                        android:layout_width="170dp"
+                        android:layout_height="wrap_content"/>
+
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="18dp"
+                        android:layout_height="wrap_content">
+
+                        <EditText
+                            android:id="@+id/BEdit_county"
+                            android:textColor="@color/grey"
+                            android:hint="Enter County"
+                            android:drawableLeft="@drawable/ic_location"
+                            android:drawableTint="@color/primary"
+                            android:textSize="17dp"
+                            android:layout_width="170dp"
+                            android:layout_height="wrap_content"/>
+
+
+                        <EditText
+                            android:id="@+id/BEdit_estate"
+                            android:textColor="@color/grey"
+                            android:hint="Enter ward"
+                            android:textSize="17dp"
+                            android:layout_marginStart="5dp"
+                            android:layout_width="170dp"
+                            android:layout_height="wrap_content"/>
+
+
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+
+                <Button
+                    android:id="@+id/Btnsave_ProfileEdits"
+                    android:layout_width="200dp"
+                    android:text="Save changes"
+                    android:textColor="@color/black"
+                    android:layout_margin="5dp"
+                    android:textSize="19dp"
+                    android:textStyle="bold"
+                    android:textAllCaps="false"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@drawable/btn_round_gradient"
+                    android:layout_height="wrap_content"/>
+
             </LinearLayout>
+
+
+
+
 
 
 

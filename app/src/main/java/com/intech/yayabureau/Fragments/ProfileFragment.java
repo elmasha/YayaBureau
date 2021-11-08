@@ -1,5 +1,6 @@
 package com.intech.yayabureau.Fragments;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -14,9 +15,13 @@ import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -26,9 +31,10 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.intech.yayabureau.Activities.MainActivity;
+import com.intech.yayabureau.Activities.MyCandidatesActivity;
 import com.intech.yayabureau.Models.Bureau;
-import com.intech.yayabureau.Models.Candidates;
 import com.intech.yayabureau.R;
 import com.squareup.picasso.Picasso;
 
@@ -51,12 +57,17 @@ View root;
 
     private TextView logout;
 
-
     private TextView BureauName,UserName,BureauID,BuildingName,Street,Estate,NoOfCandidate,County,Email,BoxNo
             ,Telephone;
 
-    private FirebaseAuth mAuth;
+    private EditText EditBureauName,EditUserName,EditBuildingName,EditStreet,EditCounty,EditEmail,EditBoxNo,EditEstate
+            ,EditTelephone;
+    private Button BtnSaveChanges;
 
+    private FirebaseAuth mAuth;
+    private FloatingActionButton editProfile;
+    private LinearLayout ProfileEdits,ProfileDetails;
+    private int EditState = 0;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -84,6 +95,50 @@ View root;
         UserImage = root.findViewById(R.id.userImage);
 
 
+        ///Edit Variables
+        ProfileDetails =root.findViewById(R.id.ProfileDetails);
+        ProfileEdits = root.findViewById(R.id.ProfileEditDetails);
+        editProfile = root.findViewById(R.id.edit_profile);
+        BtnSaveChanges = root.findViewById(R.id.Btnsave_ProfileEdits);
+        EditBureauName = root.findViewById(R.id.BEdit_BName);
+        EditUserName = root.findViewById(R.id.BEdit_name);
+        EditStreet = root.findViewById(R.id.BEdit_street);
+        EditBuildingName = root.findViewById(R.id.BEdit_buildingName);
+        EditEstate = root.findViewById(R.id.BEdit_estate);
+        EditCounty = root.findViewById(R.id.BEdit_county);
+        EditEmail = root.findViewById(R.id.BEdit_email);
+        EditTelephone = root.findViewById(R.id.BEdit_phone);
+
+        BtnSaveChanges.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!validation()){
+
+                }else {
+
+                    SaveEditedChanges();
+                }
+            }
+        });
+
+
+        editProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (EditState == 0 ){
+                    ProfileDetails.setVisibility(View.GONE);
+                    ProfileEdits.setVisibility(View.VISIBLE);
+                    EditState =1;
+                }else if (EditState == 1){
+                    ProfileDetails.setVisibility(View.VISIBLE);
+                    ProfileEdits.setVisibility(View.GONE);
+                    EditState = 0;
+                }
+
+            }
+        });
+
+
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -94,6 +149,46 @@ View root;
 
         LoadDetails();
         return root;
+    }
+
+    private void SaveEditedChanges() {
+        ProgressDialog progressDialog = new ProgressDialog(getContext());
+        progressDialog.setMessage("Please wait saving changes..");
+        progressDialog.show();
+
+        firstName = EditUserName.getText().toString().trim();
+        Bname = EditBureauName.getText().toString().trim();
+        streets = EditStreet.getText().toString().trim();
+        telepone = EditTelephone.getText().toString().trim();
+        county = EditCounty.getText().toString().trim();
+        mail = EditEmail.getText().toString().trim();
+        Building = EditBuildingName.getText().toString().trim();
+        Estates = EditEstate.getText().toString().trim();
+
+
+        String token_Id = FirebaseInstanceId.getInstance().getToken();
+        HashMap<String,Object> registerB = new HashMap<>();
+        registerB.put("Name", firstName);
+        registerB.put("Bureau_Name",Bname);
+        registerB.put("Building",Building);
+        registerB.put("Street_name",streets);
+        registerB.put("County",county);
+        registerB.put("Email",mail);
+        registerB.put("Phone_NO",telepone);
+
+        BureauRef.document(mAuth.getCurrentUser().getUid()).update(registerB).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()){
+                    ToastBack("Changes saved successfully");
+                    progressDialog.dismiss();
+                }else {
+                    ToastBack(task.getException().getMessage());
+                    progressDialog.dismiss();
+                }
+            }
+        });
+
     }
 
 
@@ -158,7 +253,7 @@ View root;
     }
 
     //----Load details---//
-    private String userName,email,Bureau_Name,BureauImage;
+    private String userName,email,Bureau_Name,BureauImage,BureauWard;
     private long noOfCandidates;
     private void LoadDetails() {
 
@@ -182,6 +277,7 @@ View root;
                     building = bureau.getBuilding();
                     boxNo = bureau.getBox_No();
                     BureauImage = bureau.getBureau_Image();
+                    BureauWard = bureau.getCity();
 
 
                     BureauName.setText(Bureau_Name);
@@ -196,6 +292,19 @@ View root;
                     BuildingName.setText(building);
                     BoxNo.setText(" "+boxNo);
                     Street.setText(street);
+
+                    EditBureauName.setText(Bureau_Name);
+                    EditUserName.setText(userName);
+                    EditStreet.setText(street);
+                    EditBuildingName.setText(building);
+                    EditCounty.setText(county);
+                    EditEmail.setText(email);
+                    EditEstate.setText(BureauWard);
+                    EditTelephone.setText(mobile);
+
+
+
+
                     if (BureauImage != null){
                         Picasso.with(getContext())
                                 .load(BureauImage).placeholder(R.drawable.load)
@@ -212,6 +321,51 @@ View root;
 
     }
     //...end load details
+
+
+    private String firstName,streets,Building,Estates,mail,telepone,Bname;
+    private boolean validation() {
+        firstName = EditUserName.getText().toString().trim();
+        Bname = EditBureauName.getText().toString().trim();
+        streets = EditStreet.getText().toString().trim();
+        telepone = EditTelephone.getText().toString().trim();
+        county = EditCounty.getText().toString().trim();
+        mail = EditEmail.getText().toString().trim();
+        Building = EditBuildingName.getText().toString().trim();
+        Estates = EditEstate.getText().toString().trim();
+
+
+
+        if (firstName.isEmpty()){
+            ToastBack("Provide your full  name");
+            return false;
+        }
+        else if (Bname.isEmpty()){
+            ToastBack("Provide Bureau name");
+            return false;
+        }
+        else if (streets.isEmpty()){
+            ToastBack("Provide your street");
+            return false;
+        }
+        else if (telepone.isEmpty()){
+            ToastBack("Provide mobile no");
+            return false;
+        }
+        else if (county.isEmpty()){
+            ToastBack("Provide county.");
+            return false;
+        }
+        else if (Estates.isEmpty()){
+            ToastBack("Provide your estate.");
+            return false;
+        }
+
+        else{
+            return true;
+        }
+    }
+
 
     private Toast backToast;
     private void ToastBack(String message){

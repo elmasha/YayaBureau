@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -37,6 +38,7 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Transaction;
@@ -69,11 +71,11 @@ public class UpdateCandidateActivity extends AppCompatActivity {
             DOB,FirstName,Mobile,County
             ,Ward,Status,Employer,EmployerCounty,EmployerCity,EmployerNo,City,Salary,ID_no,Residence;
     private Spinner CandidateStatus;
-    private EditText EditName,EditSecName,EditCounty,EditWard,EditNo,EditResidence;
+    private EditText EditName,EditSalary,EditSecName,EditCounty,EditWard,EditNo,EditResidence;
 
     private CircleImageView candidateProfile;
     private String firstName,image,status,mobile,county,ward,UpdateStatus,
-            village,nextOfKin,kinMobile,experience,salary,residence,dob,idNo,gender,age,eCounty,eCity,ePhone,eName;
+          salary,residence,idNo,age,eCounty,eCity,ePhone,eName;
     private FloatingActionButton  deleteCandidate,updateCandidate,callCandidate,editCandidate;
     private LinearLayout employerDetails,StatusLayout,EditMyDetails,MyDetails;
     int PERMISSION_ALL = 20003;
@@ -121,6 +123,7 @@ public class UpdateCandidateActivity extends AppCompatActivity {
         EditWard = findViewById(R.id.edit_ward);
         EditNo = findViewById(R.id.edit_phone);
         EditResidence = findViewById(R.id.edit_residence);
+        EditSalary = findViewById(R.id.edit_salary);
         Btn_SaveChanges = findViewById(R.id.Btn_saveEdits);
 
 
@@ -128,6 +131,11 @@ public class UpdateCandidateActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+                if (!validation()){
+
+                }else {
+                    SaveEditChanges();
+                }
             }
         });
 
@@ -140,7 +148,9 @@ public class UpdateCandidateActivity extends AppCompatActivity {
                     EditMyDetails.setVisibility(View.VISIBLE);
                     EditState = 1;
                 }else if (EditState == 1){
-
+                    MyDetails.setVisibility(View.VISIBLE);
+                    EditMyDetails.setVisibility(View.GONE);
+                    EditState = 0;
                 }
             }
         });
@@ -184,6 +194,44 @@ public class UpdateCandidateActivity extends AppCompatActivity {
       LoadCount();
 
     }
+
+    private void SaveEditChanges() {
+
+        ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Please wait saving changes..");
+        progressDialog.show();
+        firstName = EditName.getText().toString().trim();
+        middleName = EditSecName.getText().toString().trim();
+        Editssalary = EditSalary.getText().toString().trim();
+        mobile = EditNo.getText().toString().trim();
+        county = EditCounty.getText().toString().trim();
+        ward= EditWard.getText().toString().trim();
+
+
+        HashMap<String,Object> store = new HashMap<>();
+        store.put("Candidate_name",firstName +" " + middleName);
+        store.put("ID_no",idNo);
+        store.put("Mobile_no",mobile);
+        store.put("County",county);
+        store.put("Ward",ward);
+        store.put("Salary",salary);
+
+        CandidateRef.document(ID).update(store).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@androidx.annotation.NonNull Task<Void> task) {
+
+                if (task.isSuccessful()){
+                    ToastBack("Changes saved successfully");
+                    progressDialog.dismiss();
+                }else {
+
+                    ToastBack("Registration failed try Again.");
+                    progressDialog.dismiss();
+                }
+            }
+        });
+    }
+
     public static boolean hasPermissions(Context context, String... permissions) {
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && context != null && permissions != null) {
             for (String permission : permissions) {
@@ -283,6 +331,47 @@ public class UpdateCandidateActivity extends AppCompatActivity {
         });
     }
 
+
+
+private String middleName,Editssalary;
+    private boolean validation() {
+        firstName = EditName.getText().toString().trim();
+        middleName = EditSecName.getText().toString().trim();
+        Editssalary = EditSalary.getText().toString().trim();
+        mobile = EditNo.getText().toString().trim();
+        county = EditCounty.getText().toString().trim();
+        ward= EditWard.getText().toString().trim();
+
+        if (firstName.isEmpty()){
+            ToastBack("Provide first name");
+            return false;
+        }
+        else if (middleName.isEmpty()){
+            ToastBack("Provide second name");
+            return false;
+        }
+        else if (Editssalary.isEmpty()){
+            ToastBack("Provide salary");
+            return false;
+        }
+        else if (mobile.isEmpty()){
+            ToastBack("Provide mobile no");
+            return false;
+        }
+        else if (county.isEmpty()){
+            ToastBack("Provide county.");
+            return false;
+        }
+        else if (ward.isEmpty()){
+            ToastBack("Provide ward.");
+            return false;
+        }
+
+        else{
+            return true;
+        }
+    }
+
     //----Load details---//
     private String userName,email,BureauName;
     private long noOfCandidates;
@@ -334,7 +423,6 @@ public class UpdateCandidateActivity extends AppCompatActivity {
                     EditResidence.setText(residence);
                     EditWard.setText(ward);
                     Picasso.with(getApplicationContext()).load(image).placeholder(R.drawable.load).error(R.drawable.user).into(candidateProfile);
-
 
                     if (status.equals("UnAvailable")){
                         employerDetails.setVisibility(View.VISIBLE);

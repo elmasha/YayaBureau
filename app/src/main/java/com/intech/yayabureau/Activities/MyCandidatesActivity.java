@@ -125,7 +125,10 @@ public class MyCandidatesActivity extends AppCompatActivity  {
             finish();
             return;
         } else {
+
               ToastBack("Double tap to exit");
+            getSupportFragmentManager().beginTransaction().replace(R.id.Frame_profile,new
+                    CandidatesFragment()).commit();
         }
         backPressedTime = System.currentTimeMillis();
     }

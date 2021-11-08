@@ -131,22 +131,22 @@
                                     android:layout_width="wrap_content"
                                     android:id="@+id/select_status"
                                     android:entries="@array/status"
+                                    android:layout_gravity="center"
                                     android:layout_height="40dp"/>
 
 
                                 <LinearLayout
                                     android:layout_width="wrap_content"
                                     android:orientation="vertical"
-                                    android:layout_margin="4dp"
                                     android:layout_height="wrap_content">
 
                                     <com.getbase.floatingactionbutton.FloatingActionButton
                                         android:id="@+id/upload_candidate"
                                         android:layout_width="wrap_content"
                                         app:fab_size="mini"
-                                        app:fab_colorPressed="@color/black"
+                                        app:fab_colorPressed="@color/main"
                                         android:layout_gravity="center_horizontal"
-                                        app:fab_colorNormal="@color/primary"
+                                        app:fab_colorNormal="@color/black"
                                         app:fab_icon="@drawable/ic_sync"
                                         android:layout_height="wrap_content"/>
 
@@ -265,7 +265,6 @@
                     <LinearLayout
                         android:id="@+id/MyDetails"
                         android:layout_width="wrap_content"
-                        android:visibility="gone"
                         android:orientation="vertical"
                         android:layout_height="wrap_content">
 
@@ -351,6 +350,7 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:visibility="gone"
                         android:id="@+id/EditMyDetails"
                         android:layout_width="wrap_content"
                         android:orientation="vertical"
@@ -427,16 +427,7 @@
 
                         </LinearLayout>
 
-                        <EditText
-                            android:id="@+id/edit_id"
-                            android:textSize="18dp"
-                            android:text="3445353453"
-                            android:hint="Enter ID"
-                            android:layout_margin="5dp"
-                            android:textColor="@color/grey"
-                            android:drawableLeft="@drawable/ic_portrait"
-                            android:layout_width="150dp"
-                            android:layout_height="wrap_content"/>
+
 
                         <EditText
                             android:id="@+id/edit_phone"
@@ -446,7 +437,7 @@
                             android:hint="Enter Phone No."
                             android:layout_margin="5dp"
                             android:drawableLeft="@drawable/ic_phone2"
-                            android:layout_width="150dp"
+                            android:layout_width="190dp"
                             android:layout_height="wrap_content"/>
 
                         <EditText
@@ -457,7 +448,7 @@
                             android:textColor="@color/blue"
                             android:layout_margin="5dp"
                             android:drawableLeft="@drawable/ic_monetization"
-                            android:layout_width="150dp"
+                            android:layout_width="180dp"
                             android:layout_height="wrap_content"/>
 
                         <EditText
@@ -466,7 +457,7 @@
                             android:layout_margin="5dp"
                             android:text=""
                             android:drawableLeft="@drawable/ic_home"
-                            android:layout_width="150dp"
+                            android:layout_width="180dp"
                             android:layout_height="wrap_content"/>
 
                         <Button
