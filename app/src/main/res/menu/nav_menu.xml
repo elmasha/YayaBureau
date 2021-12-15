@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <group android:checkableBehavior="single">
+
+        <item android:title="Account">
+            <menu>
+
+                <item android:id="@+id/account"
+                    android:icon="@drawable/ic_person_24"
+                    android:title="My Profile"/>
+
+                <item android:id="@+id/notification"
+                    android:icon="@drawable/ic_notifications_24"
+                    android:title="Notification"/>
+
+                <item android:id="@+id/my_candidate"
+                    android:icon="@drawable/ic_groups_24"
+                    android:title="My candidate"/>
+
+                <item android:id="@+id/add_candidate"
+                    android:icon="@drawable/ic_person_add"
+                    android:title="Add candidate"/>
+
+
+
+            </menu>
+
+        </item>
+
+    </group>
+
+
+
+    <item android:title="Communicate">
+
+        <menu>
+
+            <item android:id="@+id/share"
+                android:icon="@drawable/ic_share"
+                android:title="Share"/>
+
+            <item android:id="@+id/refer"
+                android:icon="@drawable/ic_send"
+                android:title="Refer a friend"/>
+        </menu>
+
+    </item>
+
+    <item android:title="Log out" >
+
+        <menu>
+            <item android:id="@+id/logOut"
+                android:icon="@drawable/ic_logout"
+                android:iconTint="@color/red"
+                android:title="Log out"/>
+
+        </menu>
+
+
+
+    </item>
+
+</menu>

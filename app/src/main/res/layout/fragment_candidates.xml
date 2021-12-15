@@ -16,6 +16,7 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_margin="8dp"
+            android:visibility="gone"
             android:layout_height="wrap_content">
 
             <TextView
@@ -34,6 +35,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:text="0"
+                android:visibility="gone"
                 android:textSize="18dp"
                 android:textColor="@color/main"
                 android:textStyle="bold" />
@@ -118,15 +120,15 @@
 
         <ImageView
             android:src="@drawable/folder"
-            android:layout_width="90dp"
+            android:layout_width="60dp"
             android:layout_gravity="center_horizontal"
-            android:layout_height="90dp"/>
+            android:layout_height="60dp"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:textSize="19dp"
+            android:textSize="17dp"
             android:layout_margin="8dp"
             android:text="No candidates"
             android:textColor="@color/ColorRed"
@@ -152,6 +154,7 @@
             android:id="@+id/Add_candidate"
             android:layout_width="wrap_content"
             app:fab_colorNormal="@color/main2"
+            app:fabSize="mini"
             android:layout_gravity="center_horizontal"
             app:fab_colorPressed="@color/black"
             app:fab_icon="@drawable/ic_person_add"

@@ -34,7 +34,7 @@ import com.intech.yayabureau.R;
 import javax.annotation.Nullable;
 
 
-public class CandidatesFragment extends Fragment {
+public class  CandidatesFragment extends Fragment {
 View root;
     private LinearLayout imageView;
     private SwipeRefreshLayout swipeRefreshLayout;

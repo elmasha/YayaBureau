@@ -23,6 +23,8 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -94,7 +96,8 @@ public class Add_Candidate extends AppCompatActivity {
     int PERMISSION_ALL = 20003;
     private Bitmap compressedImageBitmap;
     String[] PERMISSIONS = {Manifest.permission.READ_EXTERNAL_STORAGE};
-    private TextView AgeText;
+    private TextView AgeText,ToManiView;
+    private LinearLayout relativeLayout;
 
 
     @Override
@@ -123,6 +126,16 @@ public class Add_Candidate extends AppCompatActivity {
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
         AgeText = findViewById(R.id.age);
+        relativeLayout = findViewById(R.id.LinearLayoutAdd);
+        ToManiView = findViewById(R.id.BackToMainView);
+
+
+        ToManiView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getApplicationContext(),MyCandidatesActivity.class));
+            }
+        });
 
 
         UploadDetails.setOnClickListener(new View.OnClickListener() {
@@ -200,6 +213,31 @@ public class Add_Candidate extends AppCompatActivity {
             }
     }
 
+
+    private void Notify(String id){
+        HashMap<String ,Object> notify = new HashMap<>();
+        notify.put("title","Added a new candidate");
+        notify.put("description","You have successful added "+firstName +" " + middleName +" "+surName);
+        notify.put("to",id);
+        notify.put("from",mAuth.getCurrentUser().getUid());
+        notify.put("timestamp",FieldValue.serverTimestamp());
+
+
+        BureauRef.document(mAuth.getCurrentUser().getUid()).collection("Notifications")
+                .document().set(notify)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if(task.isSuccessful()){
+
+                        }else {
+
+                        }
+                    }
+                });
+
+
+    }
 
 
     int getYear(Date date1,Date date2){
@@ -367,6 +405,7 @@ public class Add_Candidate extends AppCompatActivity {
     }
     //...end load details
 
+    private Snackbar snackbar;
     private void CountUser() {
         double total = noOfCandidates + 1;
         WriteBatch batch;
@@ -377,7 +416,15 @@ public class Add_Candidate extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()){
+                    snackbar = Snackbar.make(relativeLayout, "Request sent successful", Snackbar.LENGTH_INDEFINITE);
+                    snackbar.setAction("NOTIFY", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                             Notify(mAuth.getCurrentUser().getUid());
+                        }
+                    });
 
+                    snackbar.show();
                     progressDialog.dismiss();
                     getAvailableCounts("Available");
 
@@ -558,14 +605,6 @@ public class Add_Candidate extends AppCompatActivity {
 
 
         backToast = Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG);
-        View view = backToast.getView();
-
-        //Gets the actual oval background of the Toast then sets the colour filter
-        view.getBackground().setColorFilter(Color.parseColor("#0BF4DE"), PorterDuff.Mode.SRC_IN);
-
-        //Gets the TextView from the Toast so it can be editted
-        TextView text = view.findViewById(android.R.id.message);
-        text.setTextColor(Color.parseColor("#1C1B2B"));
         backToast.show();
     }
 

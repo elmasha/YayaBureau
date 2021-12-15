@@ -1,18 +1,24 @@
-package com.intech.yayabureau.Activities;
+ package com.intech.yayabureau.Activities;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.format.DateFormat;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
@@ -22,19 +28,28 @@ import android.widget.Toast;
 
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.getbase.floatingactionbutton.FloatingActionButton;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.intech.yayabureau.Adapters.CandidateAdapter;
 import com.intech.yayabureau.Fragments.CandidatesFragment;
+import com.intech.yayabureau.Fragments.NotificationFragment;
 import com.intech.yayabureau.Fragments.ProfileFragment;
 import com.intech.yayabureau.Models.Candidates;
 import com.intech.yayabureau.R;
+
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
 
 import javax.annotation.Nullable;
 
@@ -46,14 +61,16 @@ public class MyCandidatesActivity extends AppCompatActivity  {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     CollectionReference BureauRef = db.collection("Yaya_Bureau");
     CollectionReference CandidateRef = db.collection("Yaya_Candidates");
-    private TextView textUser,textEmail,textBureauName;
+    private TextView textUser,textEmail,textBureauName,OpenDrawer;
     private FloatingActionButton addCandidate;
     private CandidateAdapter adapter;
     private RecyclerView mRecyclerView;
+    private DrawerLayout dl;
+    private ActionBarDrawerToggle t;
+    private NavigationView nv;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
-
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             Fragment SelectedFragment = null;
@@ -89,9 +106,149 @@ public class MyCandidatesActivity extends AppCompatActivity  {
         getSupportFragmentManager().beginTransaction().replace(R.id.Frame_profile,new
                 CandidatesFragment()).commit();
         mAuth = FirebaseAuth.getInstance();
+        OpenDrawer = findViewById(R.id.drawerOpen);
+        dl = (DrawerLayout) findViewById(R.id.drawer);
+//        dl.closeDrawer(GravityCompat.END);
+
+
+        nv = (NavigationView) findViewById(R.id.navigation_menu);
+
+        OpenDrawer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!dl.isDrawerVisible(GravityCompat.START)){
+                    dl.openDrawer(GravityCompat.START);
+                }else if (dl.isDrawerVisible(GravityCompat.START)){
+                    dl.closeDrawer(GravityCompat.START);
+                }
+            }
+        });
+
+        nv.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                int id = item.getItemId();
+                switch (id) {
+                    case R.id.account:
+                        if (dl.isDrawerOpen(GravityCompat.START)){
+                            dl.closeDrawer(GravityCompat.START);
+                        }
+                        getSupportFragmentManager().beginTransaction().replace(R.id.Frame_profile,
+                                new ProfileFragment()).commit();
+                        break;
+
+                    case R.id.notification:
+
+                        if (dl.isDrawerOpen(GravityCompat.START)){
+                            dl.closeDrawer(GravityCompat.START);
+                        }
+                        getSupportFragmentManager().beginTransaction().replace(R.id.Frame_profile,
+                                new NotificationFragment()).commit();
+                        break;
+                    case R.id.share:
+                        if (dl.isDrawerOpen(GravityCompat.START)){
+                            dl.closeDrawer(GravityCompat.START);
+                        }
+                        // shareApp(getApplicationContext());
+                        break;
+                    case R.id.add_candidate:
+                        if (dl.isDrawerOpen(GravityCompat.START)){
+                            dl.closeDrawer(GravityCompat.START);
+                        }
+                       startActivity(new Intent(getApplicationContext(),Add_Candidate.class));
+                        break;
+                    case R.id.my_candidate:
+                        if (dl.isDrawerOpen(GravityCompat.START)){
+                            dl.closeDrawer(GravityCompat.START);
+                        }
+                        getSupportFragmentManager().beginTransaction().replace(R.id.Frame_profile,
+                                new CandidatesFragment()).commit();
+                        break;
+                    case R.id.refer:
+                        if (dl.isDrawerOpen(GravityCompat.START)){
+                            dl.closeDrawer(GravityCompat.START);
+                        }
+                        break;
+                    case R.id.logOut:
+                        if (dl.isDrawerOpen(GravityCompat.START)){
+                            dl.closeDrawer(GravityCompat.START);
+                        }
+                        Logout_Alert();
+                        break;
+
+                    default:
+                        return true;
+                }
+
+
+                return true;
+
+            }
+        });
 
 
 
+    }
+
+
+
+    private AlertDialog dialog2;
+    public void Logout_Alert() {
+
+        Date currentTime = Calendar.getInstance().getTime();
+        String date = DateFormat.format("dd MMM ,yyyy | hh:mm a",new Date(String.valueOf(currentTime))).toString();
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        dialog2 = builder.create();
+        dialog2.show();
+        builder.setMessage("Are you sure to Log out..\n");
+        builder.setPositiveButton("Yes",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        Log_out();
+
+                    }
+                });
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                dialog2.dismiss();
+            }
+        });
+        builder.setCancelable(false);
+        builder.show();
+    }
+
+
+    void Log_out(){
+
+        String User_ID = mAuth.getCurrentUser().getUid();
+
+        HashMap<String,Object> store = new HashMap<>();
+        store.put("device_token", FieldValue.delete());
+
+        BureauRef.document(User_ID).update(store).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+
+
+                if (task.isSuccessful()){
+
+                    mAuth.signOut();
+                    Intent logout = new Intent(getApplicationContext(), MainActivity.class);
+                    logout.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(logout);
+                    dialog2.dismiss();
+
+
+                }else {
+
+                    ToastBack( task.getException().getMessage());
+
+                }
+
+            }
+        });
 
     }
 
@@ -102,14 +259,6 @@ public class MyCandidatesActivity extends AppCompatActivity  {
 
 
         backToast = Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG);
-        View view = backToast.getView();
-
-        //Gets the actual oval background of the Toast then sets the colour filter
-        view.getBackground().setColorFilter(Color.parseColor("#0BF4DE"), PorterDuff.Mode.SRC_IN);
-
-        //Gets the TextView from the Toast so it can be editted
-        TextView text = view.findViewById(android.R.id.message);
-        text.setTextColor(Color.parseColor("#1C1B2B"));
         backToast.show();
     }
 
