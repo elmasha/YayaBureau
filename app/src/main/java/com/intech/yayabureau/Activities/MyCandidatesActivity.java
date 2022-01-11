@@ -201,6 +201,8 @@ public class MyCandidatesActivity extends AppCompatActivity  {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         dialog2 = builder.create();
         dialog2.show();
+        builder.setIcon(R.drawable.logout);
+        builder.setTitle("LogOut");
         builder.setMessage("Are you sure to Log out..\n");
         builder.setPositiveButton("Yes",
                 new DialogInterface.OnClickListener() {

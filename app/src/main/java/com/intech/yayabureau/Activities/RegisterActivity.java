@@ -42,6 +42,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.hbb20.CountryCodePicker;
+import com.intech.yayabureau.Interface.RetrofitInterface;
 import com.intech.yayabureau.R;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
@@ -56,6 +57,8 @@ import java.util.concurrent.TimeUnit;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import id.zelory.compressor.Compressor;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 import static com.intech.yayabureau.Activities.Add_Candidate.hasPermissions;
 import static com.theartofdev.edmodo.cropper.CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE;
@@ -74,7 +77,7 @@ public class RegisterActivity extends AppCompatActivity {
     private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallBacks;
     private String mVerificationId;
     private PhoneAuthProvider.ForceResendingToken mToken;
-    private static final long START_TIME_IN_MILLIS_COUNT = 600000;
+    private static final long START_TIME_IN_MILLIS_COUNT = 27000;
     private CountDownTimer mCountDownTimer;
     private boolean mTimerRunning;
     private long mTimeLeftInMillis = START_TIME_IN_MILLIS_COUNT;
@@ -91,6 +94,17 @@ public class RegisterActivity extends AppCompatActivity {
     int PERMISSION_ALL = 20003;
     private Bitmap compressedImageBitmap;
     String[] PERMISSIONS = {Manifest.permission.READ_EXTERNAL_STORAGE};
+
+    public  String CheckoutRequestID,ResponseCode,ResultCode,ResponseDescription,ResultDesc;
+    private Retrofit retrofit;
+    private RetrofitInterface retrofitInterface;
+    private String BASE_URL = "https://yayampesapi.herokuapp.com/";
+
+    private boolean preference_count;
+    private String mpesa_receipt,checkOutReqID;
+    private String payment_date;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,6 +136,13 @@ public class RegisterActivity extends AppCompatActivity {
         ///---initiate Storage
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
+
+        retrofit = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        retrofitInterface = retrofit.create(RetrofitInterface.class);
+
 
         add_profile.setOnClickListener(new View.OnClickListener() {
             @Override
