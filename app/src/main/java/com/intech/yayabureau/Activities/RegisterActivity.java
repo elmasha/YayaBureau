@@ -184,8 +184,9 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (!validation()){
-
+                    PesaNO = CodePicker.getFullNumber();
                 }else {
+                    PesaNO = CodePicker.getFullNumber();
                     progressDialog2 = new ProgressDialog(RegisterActivity.this);
                     progressDialog2.setMessage("Please wait");
                     progressDialog2.show();
@@ -196,7 +197,7 @@ public class RegisterActivity extends AppCompatActivity {
                             TimeUnit.SECONDS,
                             RegisterActivity.this,
                             mCallBacks);
-//                    Register_Bureau();
+//                 Register_Bureau();
                 }
             }
         });
@@ -276,8 +277,8 @@ public class RegisterActivity extends AppCompatActivity {
         BtnConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                PesaNO = CodePicker.getFullNumber();
-                stk();
+                PesaNO = mpesaNo.getText().toString().trim();
+                stk(PesaNO);
                 startTimer();
                 noMpesa.setVisibility(View.INVISIBLE);
                 BtnConfirm.setVisibility(View.INVISIBLE);
@@ -292,14 +293,22 @@ public class RegisterActivity extends AppCompatActivity {
 
 
     private ProgressDialog progressStk;
-    private void stk(){
+    private void stk(String pesaNO){
         String Amount = "1";
-        PesaNO = mpesaNo.getText().toString().trim().substring(1);
         HashMap<String,Object> stk_Push = new HashMap<>();
-        stk_Push.put("User_name",userNameE);
         stk_Push.put("user_id",mAuth.getCurrentUser().getUid());
-        stk_Push.put("phone","254"+PesaNO);
         stk_Push.put("amount",Amount);
+        stk_Push.put("Name", firstName +" "+ middleName +" "+ lastName);
+        stk_Push.put("Bureau_Name",bureauName);
+        stk_Push.put("ID_no",idNumber);
+        stk_Push.put("Building",buildingName);
+        stk_Push.put("Street_name",streetName);
+        stk_Push.put("City",city);
+        stk_Push.put("County",county);
+        stk_Push.put("Email",email);
+        stk_Push.put("Box_No",boxNO);
+        stk_Push.put("Postal_code",postalCode);
+        stk_Push.put("Phone_NO",pesaNO);
 
 
         Call<ResponseStk> callStk = retrofitInterface.stk_push(stk_Push);
@@ -408,11 +417,7 @@ public class RegisterActivity extends AppCompatActivity {
                         resetTimer();
 
                         if (ResultCode.equals("0")){
-                            new SweetAlertDialog(RegisterActivity.this,SweetAlertDialog.SUCCESS_TYPE)
-                                    .setTitleText("Payment was successful..")
-                                    .show();
-
-
+                            Register_Bureau(mAuth.getCurrentUser().getUid());
                         }else if (ResultCode.equals("1032")){
                             new SweetAlertDialog(RegisterActivity.this,SweetAlertDialog.WARNING_TYPE)
                                     .setTitleText("This payment was cancelled")
@@ -487,9 +492,8 @@ public class RegisterActivity extends AppCompatActivity {
 
                             if (dialog_Verify != null)
                                 dialog_Verify.dismiss();
-                            pauseTimer();
-                            resetTimer();
-                            Register_Bureau(mAuth.getCurrentUser().getUid());
+                            progressDialog.dismiss();
+                            MpesaDialog();
                             // ...
                         } else {
                             // Sign in failed, display a message and update the UI
@@ -549,24 +553,13 @@ public class RegisterActivity extends AppCompatActivity {
 
                     String token_Id = FirebaseInstanceId.getInstance().getToken();
                     HashMap<String,Object> registerB = new HashMap<>();
-                    registerB.put("Name", firstName +" "+ middleName +" "+ lastName);
-                    registerB.put("Bureau_Name",bureauName);
                     registerB.put("Bureau_Image",profileImage);
-                    registerB.put("ID_no",idNumber);
-                    registerB.put("Building",buildingName);
-                    registerB.put("Street_name",streetName);
-                    registerB.put("City",city);
-                    registerB.put("County",county);
-                    registerB.put("Email",email);
-                    registerB.put("Box_No",boxNO);
-                    registerB.put("Postal_code",postalCode);
-                    registerB.put("Phone_NO",telephone);
                     registerB.put("device_token",token_Id);
                     registerB.put("No_of_candidates",0);
                     registerB.put("RegistrationFee","0");
                     registerB.put("timestamp", FieldValue.serverTimestamp());
 
-                    BureauRef.document(uid).set(registerB).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    BureauRef.document(uid).update(registerB).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if (task.isSuccessful()){
