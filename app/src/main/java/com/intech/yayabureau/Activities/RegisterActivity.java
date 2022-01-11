@@ -267,8 +267,9 @@ public class RegisterActivity extends AppCompatActivity {
                     noMpesa.setText("Close");
                 }else if (phoneState == 1){
                     phoneState = 0;
-                    if (dialog_mpesa != null) dialog_mpesa.dismiss();
                     noMpesa.setText("No");
+                }else {
+                    if (dialog_mpesa != null) dialog_mpesa.dismiss();
                 }
 
             }
@@ -513,7 +514,12 @@ public class RegisterActivity extends AppCompatActivity {
                 });
     }
 
+    private ProgressDialog progressDialog3;
     private void Register_Bureau(String uid) {
+
+        progressDialog3 = new ProgressDialog(RegisterActivity.this);
+        progressDialog3.setMessage("Please wait...");
+        progressDialog3.show();
         File newimage = new File(ImageUri.getPath());
         try {
             Compressor compressor = new Compressor(this);
@@ -567,8 +573,10 @@ public class RegisterActivity extends AppCompatActivity {
                                 Intent toreg = new Intent(getApplicationContext(),MyCandidatesActivity.class);
                                 startActivity(toreg);
                                 finish();
+                                progressDialog3.dismiss();
                             }else {
                                 ToastBack(task.getException().getMessage());
+                                progressDialog3.dismiss();
                             }
                         }
                     });
@@ -579,6 +587,7 @@ public class RegisterActivity extends AppCompatActivity {
                 }else {
 
                     ToastBack(task.getException().getMessage());
+                    progressDialog3.dismiss();
                 }
             }
         });
