@@ -7,7 +7,7 @@
     android:layout_height="wrap_content">
 
     <LinearLayout
-        android:layout_width="300dp"
+        android:layout_width="match_parent"
         android:orientation="vertical"
         android:layout_margin="10dp"
         android:layout_height="wrap_content">
@@ -33,6 +33,7 @@
         <TextView
             android:id="@+id/notify_time"
             android:layout_width="wrap_content"
+            android:layout_gravity="end"
             android:text="12.20"
             android:textSize="15dp"
             android:textColor="@color/lightGrey"

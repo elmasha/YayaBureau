@@ -12,12 +12,19 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.intech.yayabureau.R;
 
 
 public class MainActivity extends AppCompatActivity {
     Button Toregister,ToLogin;
     FirebaseAuth  mAuth;
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    CollectionReference BureauRef = db.collection("Yaya_Bureau");
+    public String UID = "";
+    public String Auth_UID = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +48,9 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext(),LoginActivity.class));
             }
         });
+
+        UID = BureauRef.document().getId();
+
     }
 
     @Override
@@ -49,12 +59,11 @@ public class MainActivity extends AppCompatActivity {
 
         if (mAuth.getCurrentUser() != null)
         {
+
             if (mAuth.getCurrentUser().getUid() != null){
-
-                startActivity(new Intent(getApplicationContext(),MyCandidatesActivity.class));
+               // startActivity(new Intent(getApplicationContext(),MyCandidatesActivity.class));
             }else {
-
-                startActivity(new Intent(getApplicationContext(),MainActivity.class));
+              //  startActivity(new Intent(getApplicationContext(),MainActivity.class));
             }
 
         }

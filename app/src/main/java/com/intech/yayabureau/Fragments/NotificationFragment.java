@@ -81,7 +81,6 @@ View root;
     private void FetchNotification() {
         Query query =  BureauRef.document(mAuth.getCurrentUser().getUid())
                 .collection("Notifications")
-                .whereEqualTo("to", mAuth.getCurrentUser().getUid())
                 .orderBy("timestamp", Query.Direction.DESCENDING)
                 .limit(50);
         FirestoreRecyclerOptions<Notification> transaction = new FirestoreRecyclerOptions.Builder<Notification>()

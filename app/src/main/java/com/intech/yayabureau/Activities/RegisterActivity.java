@@ -114,6 +114,13 @@ public class RegisterActivity extends AppCompatActivity {
 
 
 
+    private static final long START_TIME_IN_MILLIS_COUNT2 = 60000;
+    private CountDownTimer mCountDownTimer2;
+    private boolean mTimerRunning2;
+    private long mTimeLeftInMillis2 = START_TIME_IN_MILLIS_COUNT2;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -224,7 +231,7 @@ public class RegisterActivity extends AppCompatActivity {
                 mToken = Token;
                 progressDialog2.dismiss();
                 Verify_Dialog();
-                startTimer();
+                startTimer2();
 
             }
         };
@@ -394,6 +401,16 @@ public class RegisterActivity extends AppCompatActivity {
         }.start();
     }
 
+    private void newtime2(){
+        new CountDownTimer(15000, 1000) {
+            public void onTick(long millisUntilFinished) {
+            }
+
+            public void onFinish() {
+
+            }
+        }.start();
+    }
     private void StkQuery(String checkoutRequestID){
 
         Map<String ,String > stk_Query = new HashMap<>();
@@ -495,19 +512,26 @@ public class RegisterActivity extends AppCompatActivity {
                                 dialog_Verify.dismiss();
                             progressDialog.dismiss();
                             MpesaDialog();
+                            pauseTimer2();
+                            resetTimer2();
+
                             // ...
                         } else {
                             // Sign in failed, display a message and update the UI
                             ToastBack("Sign in failed");
                             Btn_Verify.setVisibility(View.VISIBLE);
                             progressBar_verify.setVisibility(View.INVISIBLE);
+                            pauseTimer2();
+                            resetTimer2();
 
                             if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
                                 // The verification code entered was invali
                                 ToastBack("The verification code entered was invalid");
-
-
-
+                                pauseTimer2();
+                                resetTimer2();
+                            }else {
+                                pauseTimer2();
+                                resetTimer2();
                             }
                         }
                     }
@@ -628,7 +652,7 @@ public class RegisterActivity extends AppCompatActivity {
         final  AlertDialog.Builder mbuilder = new AlertDialog.Builder(this);
         View mView = getLayoutInflater().inflate(R.layout.dialog_otp, null);
         mbuilder.setView(mView);
-        mbuilder.setCancelable(true);
+        mbuilder.setCancelable(false);
         dialog_Verify = mbuilder.create();
         dialog_Verify.show();
 
@@ -663,6 +687,7 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
 
+    ///----Mpesa Timer ----////
     private void startTimer() {
         mCountDownTimer = new CountDownTimer(mTimeLeftInMillis, 1000) {
             @Override
@@ -694,13 +719,56 @@ public class RegisterActivity extends AppCompatActivity {
 
     }
 
-
     private void updateCountDownText() {
         int minutes = (int) (mTimeLeftInMillis / 1000) / 60;
         int seconds = (int) (mTimeLeftInMillis / 1000) % 60;
         String timeLeftFormatted = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds);
 
+
     }
+    ///----Mpesa Timer ----////
+
+
+
+    ///----VERIFICATION Timer ----////
+    private void startTimer2() {
+        mCountDownTimer2 = new CountDownTimer(mTimeLeftInMillis2, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                mTimeLeftInMillis2 = millisUntilFinished;
+                updateCountDownText();
+            }
+            @Override
+            public void onFinish() {
+
+                dialog_Verify.dismiss();
+
+            }
+        }.start();
+        mTimerRunning2 = true;
+
+    }
+
+    private void pauseTimer2() {
+//        mCountDownTimer.cancel();
+        mTimerRunning2 = false;
+
+    }
+
+    private void resetTimer2() {
+        mTimeLeftInMillis2 = START_TIME_IN_MILLIS_COUNT2;
+        updateCountDownText();
+
+    }
+
+    private void updateCountDownText2() {
+        int minutes = (int) (mTimeLeftInMillis2 / 1000) / 60;
+        int seconds = (int) (mTimeLeftInMillis2 / 1000) % 60;
+        String timeLeftFormatted = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds);
+        timer.setText(timeLeftFormatted);
+
+    }
+    ///----VERIFICATION Timer ----////
 
     private boolean validation(){
         firstName = FirstName.getText().toString();

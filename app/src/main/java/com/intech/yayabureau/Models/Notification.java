@@ -3,27 +3,27 @@ package com.intech.yayabureau.Models;
 import java.util.Date;
 
 public class Notification {
-    private String title,description,from,to;
+    private String title,desc,from,to;
     private Date timestamp;
 
     public Notification() {
+    //empty----
     }
 
-    public Notification(String title, String description, String from, String to, Date timestamp) {
+    public Notification(String title, String desc, String from, String to, Date timestamp) {
         this.title = title;
-        this.description = description;
+        this.desc = desc;
         this.from = from;
         this.to = to;
         this.timestamp = timestamp;
     }
 
-
     public String getTitle() {
         return title;
     }
 
-    public String getDescription() {
-        return description;
+    public String getDesc() {
+        return desc;
     }
 
     public String getFrom() {

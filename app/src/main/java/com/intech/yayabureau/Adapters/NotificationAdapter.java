@@ -32,9 +32,9 @@ public class NotificationAdapter extends FirestoreRecyclerAdapter<Notification, 
     @Override
     protected void onBindViewHolder(@NonNull ProviderViewHolder holder, int position, @NonNull Notification model) {
 
-        if (model.getTitle() != null | model.getDescription() != null |model.getTimestamp() != null ){
+        if (model.getTitle() != null | model.getDesc() != null |model.getTimestamp() != null ){
             holder.title.setText(model.getTitle());
-            holder.desc.setText(model.getDescription());
+            holder.desc.setText(model.getDesc());
             holder.time.setText(TimeAgo.getTimeAgo(model.getTimestamp().getTime()));
         }
 
