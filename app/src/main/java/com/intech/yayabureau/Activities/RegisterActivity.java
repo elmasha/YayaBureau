@@ -45,6 +45,7 @@ import com.google.firebase.storage.UploadTask;
 import com.hbb20.CountryCodePicker;
 import com.intech.yayabureau.Interface.RetrofitInterface;
 import com.intech.yayabureau.Models.ResponseStk;
+import com.intech.yayabureau.Models.Result;
 import com.intech.yayabureau.Models.StkQuery;
 import com.intech.yayabureau.R;
 import com.theartofdev.edmodo.cropper.CropImage;
@@ -120,6 +121,11 @@ public class RegisterActivity extends AppCompatActivity {
     private long mTimeLeftInMillis2 = START_TIME_IN_MILLIS_COUNT2;
 
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        LoadAPI();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -237,9 +243,28 @@ public class RegisterActivity extends AppCompatActivity {
         };
 
 
+        LoadAPI();
 
     }
 
+    private void LoadAPI() {
+
+        Call<Result> callStk = retrofitInterface.getResult();
+        callStk.enqueue(new Callback<Result>() {
+            @Override
+            public void onResponse(Call<Result> call, Response<Result> response) {
+                if (response.code() == 200){
+                    Result responseStk = response.body();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Result> call, Throwable t) {
+
+            }
+        });
+
+    }
 
     private AlertDialog dialog_mpesa;
     private EditText mpesaNo;
