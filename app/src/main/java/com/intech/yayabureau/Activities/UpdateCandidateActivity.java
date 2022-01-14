@@ -178,6 +178,8 @@ public class UpdateCandidateActivity extends AppCompatActivity {
       updateCandidate.setOnClickListener(new View.OnClickListener() {
           @Override
           public void onClick(View view) {
+
+
               UpdateStatus();
           }
       });
@@ -426,7 +428,6 @@ private String middleName,Editssalary;
 
                     if (status.equals("UnAvailable")){
                         employerDetails.setVisibility(View.VISIBLE);
-                        StatusLayout.setVisibility(View.GONE);
                         Status.setTextColor(getResources().getColor(R.color.ColorRed));
                     }else if (status.equals("Available")){
                         employerDetails.setVisibility(View.GONE);
@@ -443,11 +444,9 @@ private String middleName,Editssalary;
 
     //-----Update Status ----
     private void UpdateStatus(){
-        UpdateStatus = CandidateStatus.getSelectedItem().toString().trim();
-        if (UpdateStatus.equals("Update status")){
-            ToastBack("Select status");
-        }else {
 
+        if(status.equals("Available")){
+        UpdateStatus = "UnAvailable";
             HashMap<String, Object> update = new HashMap<>();
             update.put("Status", UpdateStatus);
             CandidateRef.document(ID).update(update).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -463,7 +462,26 @@ private String middleName,Editssalary;
                     }
                 }
             });
+        }else if (status.equals("UnAvailable")){
+        UpdateStatus = "Available";
+            HashMap<String, Object> update = new HashMap<>();
+            update.put("Status", UpdateStatus);
+            CandidateRef.document(ID).update(update).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if (task.isSuccessful()) {
+
+                        ToastBack("Status updated to " + UpdateStatus);
+                        getAvailableCounts(UpdateStatus);
+                    } else {
+
+                        ToastBack(task.getException().getMessage());
+                    }
+                }
+            });
+
         }
+
 
     }
 

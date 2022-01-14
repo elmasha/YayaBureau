@@ -13,11 +13,11 @@
 
                 <item android:id="@+id/notification"
                     android:icon="@drawable/ic_notifications_24"
-                    android:title="Notification"/>
+                    android:title="Notifications"/>
 
                 <item android:id="@+id/my_candidate"
                     android:icon="@drawable/ic_groups_24"
-                    android:title="My candidate"/>
+                    android:title="My candidates"/>
 
                 <item android:id="@+id/add_candidate"
                     android:icon="@drawable/ic_person_add"
