@@ -528,7 +528,7 @@ public class RegisterActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
-
+                            LoadAPI();
                             progressDialog = new ProgressDialog(RegisterActivity.this);
                             progressDialog.setMessage("Please wait signing Up...");
                             progressDialog.show();
@@ -610,8 +610,6 @@ public class RegisterActivity extends AppCompatActivity {
                     HashMap<String,Object> registerB = new HashMap<>();
                     registerB.put("Bureau_Image",profileImage);
                     registerB.put("device_token",token_Id);
-                    registerB.put("No_of_candidates",0);
-                    registerB.put("RegistrationFee","0");
                     registerB.put("timestamp", FieldValue.serverTimestamp());
 
                     BureauRef.document(uid).update(registerB).addOnCompleteListener(new OnCompleteListener<Void>() {

@@ -61,9 +61,9 @@ public class MainActivity extends AppCompatActivity {
         {
 
             if (mAuth.getCurrentUser().getUid() != null){
-               // startActivity(new Intent(getApplicationContext(),MyCandidatesActivity.class));
+                startActivity(new Intent(getApplicationContext(),MyCandidatesActivity.class));
             }else {
-              //  startActivity(new Intent(getApplicationContext(),MainActivity.class));
+                startActivity(new Intent(getApplicationContext(),MainActivity.class));
             }
 
         }

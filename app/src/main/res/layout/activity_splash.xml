@@ -6,13 +6,31 @@
     android:layout_height="match_parent"
     tools:context=".Splash_Activity">
 
-    <TextView
+
+    <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Yaya Bureau"
-        android:textSize="30dp"
-        android:textColor="@color/primary"
-        android:textStyle="bold"
-        android:layout_centerInParent="true"/>
+        android:layout_centerInParent="true"
+        android:orientation="vertical"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="200dp"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/bureau1"
+            android:layout_height="250dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Yaya Bureau"
+            android:textSize="22dp"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:layout_gravity="center_horizontal"/>
+
+
+
+    </LinearLayout>
+
+
 
 </RelativeLayout>
