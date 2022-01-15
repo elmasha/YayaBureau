@@ -23,7 +23,7 @@
             android:paddingLeft="5dp"
             android:paddingBottom="5dp"
             android:background="@drawable/bg_black_close"
-            android:textColor="@color/main"
+            android:textColor="@color/white"
             android:textStyle="bold"
             android:textAlignment="center"
             android:layout_height="wrap_content"/>
@@ -112,7 +112,7 @@
                     android:layout_width="match_parent"
                     android:text=""
                     android:gravity="center_horizontal"
-                    android:background="@color/black"
+                    android:background="@drawable/bg_black_close2"
                     android:textStyle="bold"
                     android:layout_gravity="center_horizontal"
                     android:layout_height="wrap_content"/>

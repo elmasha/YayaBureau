@@ -214,11 +214,13 @@ public class Add_Candidate extends AppCompatActivity {
     }
 
 
+
     private void Notify(String id){
         HashMap<String ,Object> notify = new HashMap<>();
-        notify.put("title","Added a new candidate");
-        notify.put("description","You have successful added "+firstName +" " + middleName +" "+surName);
+        notify.put("title","New candidate");
+        notify.put("desc","You have successful added "+firstName +" " + middleName +" "+surName);
         notify.put("to",id);
+        notify.put("type","Added a new candidate.");
         notify.put("from",mAuth.getCurrentUser().getUid());
         notify.put("timestamp",FieldValue.serverTimestamp());
 
@@ -340,6 +342,8 @@ public class Add_Candidate extends AppCompatActivity {
                 store.put("User_ID",mAuth.getCurrentUser().getUid());
                 store.put("Salary",salary);
                 store.put("Age",age);
+                store.put("BureauName",BureauName);
+                store.put("BureauNo",BureauNo);
                 store.put("CandidateID",CandidateID);
                 store.put("Residence",residence);
                 store.put("Employer_name", "");
@@ -379,7 +383,7 @@ public class Add_Candidate extends AppCompatActivity {
     }
 
     //----Load details---//
-    private String userName,email,BureauName;
+    private String userName,email,BureauName,BureauNo;
     private long noOfCandidates;
     private void LoadDetails() {
 
@@ -395,6 +399,7 @@ public class Add_Candidate extends AppCompatActivity {
                     email = documentSnapshot.getString("Email");
                     BureauName = documentSnapshot.getString("Bureau_Name");
                     noOfCandidates = documentSnapshot.getLong("No_of_candidates");
+                    BureauNo = documentSnapshot.getString("Phone_NO");
 
                 }
             }
@@ -416,11 +421,11 @@ public class Add_Candidate extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()){
+                    Notify(mAuth.getCurrentUser().getUid());
                     snackbar = Snackbar.make(relativeLayout, "Request sent successful", Snackbar.LENGTH_INDEFINITE);
                     snackbar.setAction("NOTIFY", new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                             Notify(mAuth.getCurrentUser().getUid());
                         }
                     });
 

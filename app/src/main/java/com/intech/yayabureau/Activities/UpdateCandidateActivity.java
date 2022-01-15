@@ -84,6 +84,7 @@ public class UpdateCandidateActivity extends AppCompatActivity {
     private LinearLayout linearLayoutDeal;
     private Button Btn_SaveChanges;
     private int EditState = 0;
+    private TextView BackToCandidate;
 
 
     @Override
@@ -114,6 +115,7 @@ public class UpdateCandidateActivity extends AppCompatActivity {
       StatusLayout = findViewById(R.id.StatusLayout);
       callCandidate = findViewById(R.id.call_candidate);
       editCandidate = findViewById(R.id.edit_candidate);
+      BackToCandidate = findViewById(R.id.BackToCandidate);
       ///Edits
         EditMyDetails = findViewById(R.id.EditMyDetails);
         MyDetails = findViewById(R.id.MyDetails);
@@ -127,6 +129,14 @@ public class UpdateCandidateActivity extends AppCompatActivity {
         Btn_SaveChanges = findViewById(R.id.Btn_saveEdits);
 
 
+
+
+        BackToCandidate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+               startActivity(new Intent(getApplicationContext(),MyCandidatesActivity.class));
+            }
+        });
         Btn_SaveChanges.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -178,9 +188,7 @@ public class UpdateCandidateActivity extends AppCompatActivity {
       updateCandidate.setOnClickListener(new View.OnClickListener() {
           @Override
           public void onClick(View view) {
-
-
-              UpdateStatus();
+              Status_Alert();
           }
       });
 
@@ -472,15 +480,47 @@ private String middleName,Editssalary;
                     if (task.isSuccessful()) {
 
                         ToastBack("Status updated to " + UpdateStatus);
+                        if (dialog_status!= null)dialog_status.dismiss();
                         getAvailableCounts(UpdateStatus);
                     } else {
 
                         ToastBack(task.getException().getMessage());
+                        if (dialog_status!= null)dialog_status.dismiss();
                     }
                 }
             });
 
         }
+
+
+    }
+
+    private AlertDialog dialog_status;
+    public void Status_Alert() {
+
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            dialog_status = builder.create();
+            dialog_status.show();
+            builder.setIcon(R.drawable.ic_sync);
+            builder.setTitle("Update status");
+            builder.setMessage("Are you sure you want to update this status ..");
+            builder.setPositiveButton("YES",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            UpdateStatus();
+
+                        }
+                    });
+            builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog_status.dismiss();
+                }
+            });
+            builder.setCancelable(false);
+            builder.show();
+
+
 
 
     }

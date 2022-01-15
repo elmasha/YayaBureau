@@ -13,25 +13,19 @@
         android:layout_gravity="center_horizontal"
         android:layout_height="wrap_content">
 
+
+
         <TextView
-            android:id="@+id/candidate_age"
+            android:id="@+id/BackToCandidate"
             android:layout_width="wrap_content"
-            android:background="@drawable/bg_blue_close"
-            android:layout_height="wrap_content"
-            android:text="23"
-            android:paddingLeft="6dp"
-            android:paddingTop="5dp"
-            android:paddingRight="15dp"
-            android:paddingBottom="8dp"
-            android:textColor="@color/black"
-            android:textSize="18dp"
-            android:textStyle="bold" />
+            android:drawableLeft="@drawable/ic_west"
+            android:layout_margin="15dp"
+            android:layout_height="wrap_content"/>
 
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             app:cardCornerRadius="10dp"
-            android:layout_margin="10dp"
             android:layout_centerInParent="true"
             android:layout_height="wrap_content">
 
@@ -50,6 +44,20 @@
                     android:background="@drawable/bg_black"
                     android:layout_gravity="center_horizontal"
                     android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/candidate_age"
+                        android:layout_width="wrap_content"
+                        android:background="@drawable/bg_blue_close_2"
+                        android:layout_height="wrap_content"
+                        android:text="23"
+                        android:paddingLeft="6dp"
+                        android:paddingTop="5dp"
+                        android:paddingRight="15dp"
+                        android:paddingBottom="8dp"
+                        android:textColor="@color/black"
+                        android:textSize="18dp"
+                        android:textStyle="bold" />
 
                     <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/candidate_profile"

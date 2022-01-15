@@ -5,7 +5,7 @@ import java.util.Date;
 public class Candidates {
     private String Candidate_name,Gender,ID_no, DOB, Mobile_no, device_token, Profile_image,
             County, Ward, Village, Next_of_kin, Kin_phone_no, Experience, Salary,Status,CandidateID,Age,Residence, Employer_name,
-            Employer_no,
+            Employer_no,BureauName,BureauNo,
             Employer_county,
             Employer_city,Employer_ID,Working_status;
     private Date timestamp;
@@ -13,8 +13,9 @@ public class Candidates {
         //empty...
     }
 
-    public Candidates(String candidate_name, String gender, String ID_no, String DOB, String mobile_no, String device_token, String profile_image, String county, String ward, String village, String next_of_kin, String kin_phone_no, String experience, String salary, String status, String candidateID, String age, String residence, String employer_name,
-                      String employer_no, String employer_county, String employer_city, String employer_ID, String working_status, Date timestamp) {
+
+    public Candidates(String candidate_name, String gender, String ID_no, String DOB, String mobile_no, String device_token, String profile_image, String county, String ward, String village, String next_of_kin, String kin_phone_no, String experience, String salary, String status, String candidateID, String age, String residence, String employer_name, String employer_no, String bureauName, String bureauNo, String employer_county,
+                      String employer_city, String employer_ID, String working_status, Date timestamp) {
         Candidate_name = candidate_name;
         Gender = gender;
         this.ID_no = ID_no;
@@ -35,13 +36,14 @@ public class Candidates {
         Residence = residence;
         Employer_name = employer_name;
         Employer_no = employer_no;
+        BureauName = bureauName;
+        BureauNo = bureauNo;
         Employer_county = employer_county;
         Employer_city = employer_city;
         Employer_ID = employer_ID;
         Working_status = working_status;
         this.timestamp = timestamp;
     }
-
 
     public String getWorking_status() {
         return Working_status;
@@ -241,5 +243,13 @@ public class Candidates {
 
     public void setTimestamp(Date timestamp) {
         this.timestamp = timestamp;
+    }
+
+    public String getBureauName() {
+        return BureauName;
+    }
+
+    public String getBureauNo() {
+        return BureauNo;
     }
 }
