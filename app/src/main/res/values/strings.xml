@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">Yaya Bureau</string>
 
+    <string name="default_notification_channel_id">El_Tech_CH_01</string>
+
 
     <string-array name="sex">
         <item>Select gender</item>

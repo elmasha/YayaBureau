@@ -143,7 +143,7 @@
         android:orientation="vertical"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
-        android:layout_margin="14dp"
+        android:layout_margin="8dp"
         android:gravity="end"
         android:layout_height="wrap_content">
 
@@ -153,10 +153,10 @@
         <com.getbase.floatingactionbutton.FloatingActionButton
             android:id="@+id/Add_candidate"
             android:layout_width="wrap_content"
-            app:fab_colorNormal="@color/main2"
+            app:fab_colorNormal="@color/black"
             app:fabSize="mini"
             android:layout_gravity="center_horizontal"
-            app:fab_colorPressed="@color/black"
+            app:fab_colorPressed="@color/main"
             app:fab_icon="@drawable/ic_person_add"
             android:layout_height="wrap_content"/>
 
@@ -164,9 +164,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:background="@drawable/bg_blue"
+            android:background="@drawable/bg_black2"
             android:text="Add candidate"
-            android:textColor="@color/blue"
+            android:textColor="@color/main"
             android:textStyle="bold" />
 
 
