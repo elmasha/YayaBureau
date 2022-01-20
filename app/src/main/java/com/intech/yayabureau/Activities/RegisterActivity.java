@@ -436,6 +436,7 @@ public class RegisterActivity extends AppCompatActivity {
             }
         }.start();
     }
+
     private void StkQuery(String checkoutRequestID){
 
         Map<String ,String > stk_Query = new HashMap<>();
@@ -517,8 +518,6 @@ public class RegisterActivity extends AppCompatActivity {
 
 
     }
-
-
 
 
     private void signInWithPhoneAuthCredential(PhoneAuthCredential phoneAuthCredential) {
