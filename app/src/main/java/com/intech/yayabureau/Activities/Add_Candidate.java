@@ -412,40 +412,49 @@ public class Add_Candidate extends AppCompatActivity {
 
     private Snackbar snackbar;
     private void CountUser() {
-        double total = noOfCandidates + 1;
-        WriteBatch batch;
-        batch = db.batch();
-        DocumentReference doc1 = BureauRef.document(mAuth.getCurrentUser().getUid());
-        batch.update(doc1, "No_of_candidates", total);
-        batch.commit().addOnCompleteListener(new OnCompleteListener<Void>() {
+
+        final DocumentReference sfDocRef2 = BureauRef.document(mAuth.getCurrentUser().getUid());
+        db.runTransaction(new Transaction.Function<Void>() {
             @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if (task.isSuccessful()){
-                    Notify(mAuth.getCurrentUser().getUid());
-                    snackbar = Snackbar.make(relativeLayout, "Request sent successful", Snackbar.LENGTH_INDEFINITE);
-                    snackbar.setAction("NOTIFY", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                        }
-                    });
+            public Void apply(Transaction transaction) throws FirebaseFirestoreException {
+                DocumentSnapshot snapshot = transaction.get(sfDocRef2);
 
-                    snackbar.show();
-                    progressDialog.dismiss();
-                    getAvailableCounts("Available");
+                // Note: this could be done without a transaction
+                //       by updating the population using FieldValue.increment()
+                double newPopulation = snapshot.getLong("No_of_candidates") + 1;
+                transaction.update(sfDocRef2, "No_of_candidates", newPopulation);
 
-                }else {
-                    ToastBack(task.getException().getMessage());
-                    progressDialog.dismiss();
-                }
+                // Success
+                return null;
+            }
+        }).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Notify(mAuth.getCurrentUser().getUid());
+                snackbar = Snackbar.make(relativeLayout, "Request sent successful", Snackbar.LENGTH_INDEFINITE);
+                snackbar.setAction("NOTIFY", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                    }
+                });
+
+                snackbar.show();
+                progressDialog.dismiss();
+                getAvailableCounts();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.w(TAG, "Transaction failure.", e);
+                progressDialog.dismiss();
             }
         });
     }
 
 
-    private void getAvailableCounts(String status){
-        final DocumentReference sfDocRef = db.collection("Admin").document("No_of_candidates");
-
-        if (status.equals("Available")){
+    private void getAvailableCounts(){
+              final DocumentReference sfDocRef =
+                      db.collection("Admin").document("No_of_candidates");
 
             db.runTransaction(new Transaction.Function<Void>() {
                 @Override
@@ -475,39 +484,8 @@ public class Add_Candidate extends AppCompatActivity {
                 }
             });
 
-        }else if (status.equals("UnAvailable")){
-
-            db.runTransaction(new Transaction.Function<Void>() {
-                @Override
-                public Void apply(Transaction transaction) throws FirebaseFirestoreException {
-                    DocumentSnapshot snapshot = transaction.get(sfDocRef);
-                    // Note: this could be done without a transaction
-                    //       by updating the population using FieldValue.increment()
-                    double newPopulation = snapshot.getLong("Total_number") - 1;
-                    transaction.update(sfDocRef, "Total_number", newPopulation);
-
-                    // Success
-                    return null;
-                }
-            }).addOnSuccessListener(new OnSuccessListener<Void>() {
-                @Override
-                public void onSuccess(Void aVoid) {
-                    ToastBack("Candidate successful registered");
-                    Intent logout = new Intent(getApplicationContext(), MyCandidatesActivity.class);
-                    logout.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(logout);
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Log.w(TAG, "Transaction failure.", e);
-                }
-            });
 
 
-        }else {
-
-        }
 
     }
 

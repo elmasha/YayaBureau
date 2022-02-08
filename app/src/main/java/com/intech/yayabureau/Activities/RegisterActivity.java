@@ -28,6 +28,8 @@ import com.github.ybq.android.spinkit.style.DoubleBounce;
 import com.github.ybq.android.spinkit.style.ThreeBounce;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.AuthResult;
@@ -36,8 +38,12 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Transaction;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -69,6 +75,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+import static android.content.ContentValues.TAG;
 import static com.intech.yayabureau.Activities.Add_Candidate.hasPermissions;
 import static com.theartofdev.edmodo.cropper.CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE;
 
@@ -616,6 +623,7 @@ public class RegisterActivity extends AppCompatActivity {
                         public void onComplete(@NonNull Task<Void> task) {
                             if (task.isSuccessful()){
                                 ToastBack("Registration successful");
+                                getCounts();
                                 Intent toreg = new Intent(getApplicationContext(),MyCandidatesActivity.class);
                                 startActivity(toreg);
                                 finish();
@@ -642,7 +650,42 @@ public class RegisterActivity extends AppCompatActivity {
 
 
     }
+    private void getCounts(){
+        final DocumentReference sfDocRef =
+                db.collection("Admin").document("No_of_bureau");
 
+        db.runTransaction(new Transaction.Function<Void>() {
+            @Override
+            public Void apply(Transaction transaction) throws FirebaseFirestoreException {
+                DocumentSnapshot snapshot = transaction.get(sfDocRef);
+
+                // Note: this could be done without a transaction
+                //       by updating the population using FieldValue.increment()
+                double newPopulation = snapshot.getLong("No") + 1;
+                transaction.update(sfDocRef, "No", newPopulation);
+
+                // Success
+                return null;
+            }
+        }).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                ToastBack("Candidate successful registered");
+                Intent logout = new Intent(getApplicationContext(), MyCandidatesActivity.class);
+                logout.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(logout);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.w(TAG, "Transaction failure.", e);
+            }
+        });
+
+
+
+
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
