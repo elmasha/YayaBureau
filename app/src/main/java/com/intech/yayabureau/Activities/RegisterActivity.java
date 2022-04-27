@@ -114,7 +114,7 @@ public class RegisterActivity extends AppCompatActivity {
     public  String CheckoutRequestID,ResponseCode,ResultCode,ResponseDescription,ResultDesc;
     private Retrofit retrofit;
     private RetrofitInterface retrofitInterface;
-    private String BASE_URL = "https://yayampesapi.herokuapp.com/";
+    private String BASE_URL = "https://yayampesapii.herokuapp.com/";
 
     private boolean preference_count;
     private String mpesa_receipt,checkOutReqID;
