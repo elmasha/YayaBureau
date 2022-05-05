@@ -317,6 +317,7 @@ public class RegisterActivity extends AppCompatActivity {
         BtnConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                LoadAPI();
                 PesaNO = mpesaNo.getText().toString().trim();
                 stk(PesaNO);
                 startTimer();

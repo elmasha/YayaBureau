@@ -3,6 +3,7 @@ package com.intech.yayabureau.Fragments;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,6 +19,8 @@ import android.widget.TextView;
 
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.getbase.floatingactionbutton.FloatingActionButton;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -25,11 +28,16 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.intech.yayabureau.Activities.Add_Candidate;
 import com.intech.yayabureau.Activities.UpdateCandidateActivity;
 import com.intech.yayabureau.Adapters.CandidateAdapter;
 import com.intech.yayabureau.Models.Candidates;
 import com.intech.yayabureau.R;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.annotation.Nullable;
 
@@ -89,11 +97,40 @@ View root;
         });
         FetchProduct();
         LoadDetails();
-
+        FetchCandidateCount();
     return root;
     }
 
 
+    ArrayList<Object> uniqueDates = new ArrayList<Object>();
+    int sum ;
+    private void FetchCandidateCount() {
+        CandidateRef.whereEqualTo("User_ID",mAuth.getCurrentUser().getUid())
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                uniqueDates.add(document.getData());
+                                for ( sum = 0; sum < uniqueDates.size(); sum++) {
+                                }
+
+                                StoreCount(sum);
+                            }
+                        } else {
+
+                        }
+                    }
+                });
+
+    }
+
+    private void StoreCount(int sum) {
+//        HashMap<String,Object> storeCount = new HashMap<>();
+//        storeCount.put("")
+
+    }
 
 
     private void FetchProduct() {
