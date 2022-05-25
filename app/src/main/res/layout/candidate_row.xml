@@ -2,9 +2,9 @@
 <androidx.cardview.widget.CardView
     app:cardCornerRadius="8dp"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="160dp"
+    android:layout_width="170dp"
     android:layout_gravity="center_horizontal"
-    android:layout_margin="4dp"
+    android:layout_margin="5dp"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
@@ -37,6 +37,9 @@
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/row_image"
                 android:layout_width="80dp"
+                app:civ_border_color="@color/primary"
+                app:civ_border_width="1dp"
+                android:layout_margin="9dp"
                 android:layout_gravity="center_horizontal"
                 android:src="@drawable/user"
                 android:layout_height="80dp"/>

@@ -290,9 +290,6 @@ public class UpdateCandidateActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<Void> task) {
                     if (task.isSuccessful()){
 
-                        if (noOfCandidates == 0){
-                            ToastBack("No candidates left");
-                        }else {
                             double total = noOfCandidates - 1;
                             WriteBatch batch;
                             batch = db.batch();
@@ -312,9 +309,6 @@ public class UpdateCandidateActivity extends AppCompatActivity {
 
                                 }
                             });
-                        }
-
-
 
 
                     }else {

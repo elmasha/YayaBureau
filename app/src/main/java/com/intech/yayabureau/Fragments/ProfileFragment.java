@@ -31,6 +31,8 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.intech.yayabureau.Activities.MainActivity;
 import com.intech.yayabureau.Activities.MyCandidatesActivity;
@@ -38,6 +40,7 @@ import com.intech.yayabureau.Models.Bureau;
 import com.intech.yayabureau.R;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -147,6 +150,7 @@ View root;
         });
 
 
+        FetchCandidateCount();
         LoadDetails();
         return root;
     }
@@ -188,6 +192,37 @@ View root;
                 }
             }
         });
+
+    }
+
+
+    ArrayList<Object> uniqueDates = new ArrayList<Object>();
+    int sum = 0;
+    private void FetchCandidateCount() {
+        CandidateRef.whereEqualTo("User_ID",mAuth.getCurrentUser().getUid())
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            uniqueDates.clear();
+                            sum = 0;
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                uniqueDates.add(document.getData());
+                                for ( sum = 0; sum < uniqueDates.size(); sum++) {
+
+                                }
+                                // ToastBack("Notifications: "+sum+"");
+                            }
+                                HashMap<String,Object> updateCount = new HashMap<>();
+                                updateCount.put("No_of_candidates",sum);
+                                BureauRef.document(mAuth.getCurrentUser().getUid()).update(updateCount);
+
+                        } else {
+
+                        }
+                    }
+                });
 
     }
 
@@ -306,7 +341,7 @@ View root;
 
 
                     if (BureauImage != null){
-                        Picasso.with(getContext())
+                        Picasso.with(UserImage.getContext())
                                 .load(BureauImage).placeholder(R.drawable.load)
                                 .error(R.drawable.user)
                                 .into(UserImage);

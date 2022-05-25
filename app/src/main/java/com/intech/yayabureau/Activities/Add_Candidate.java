@@ -357,7 +357,7 @@ public class Add_Candidate extends AppCompatActivity {
                     public void onComplete(@androidx.annotation.NonNull Task<Void> task) {
 
                         if (task.isSuccessful()){
-                           CountUser();
+
                         }else {
 
                             ToastBack("Registration failed try Again.");
