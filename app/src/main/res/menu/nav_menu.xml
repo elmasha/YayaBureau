@@ -53,7 +53,7 @@
         <menu>
             <item android:id="@+id/logOut"
                 android:icon="@drawable/ic_logout"
-                android:iconTint="@color/red"
+                android:iconTint="@color/ColorRed"
                 android:title="Log out"/>
 
         </menu>

@@ -9,16 +9,17 @@
     tools:context=".Fragments.CandidatesFragment">
 
 
-    <RelativeLayout
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-
 
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:orientation="vertical"
-            android:layout_margin="18dp"
+            android:layout_margin="8dp"
+            android:padding="5dp"
             android:layout_centerHorizontal="true"
             android:layout_gravity="center_horizontal"
             android:layout_height="wrap_content">
@@ -26,11 +27,11 @@
             <de.hdodenhof.circleimageview.CircleImageView
                 android:src="@drawable/user"
                 android:id="@+id/userImageCandidate"
-                android:layout_width="50dp"
+                android:layout_width="70dp"
                 android:layout_gravity="center"
                 app:civ_border_color="@color/primary"
                 app:civ_border_width="2dp"
-                android:layout_height="50dp"/>
+                android:layout_height="70dp"/>
 
 
             <TextView
@@ -38,20 +39,36 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text=""
+                android:visibility="gone"
                 android:layout_gravity="center"
                 android:textColor="@color/white"
-                android:textSize="16dp"
-                android:textStyle="bold" />
+                android:textSize="16dp" />
 
         </LinearLayout>
 
 
 
+        <TextView
+            android:id="@+id/Add_candidate2"
+            android:layout_width="wrap_content"
+            android:text=" Add candidate  "
+            android:paddingLeft="12dp"
+            android:textAllCaps="false"
+            android:textSize="15dp"
+            android:layout_gravity="center_horizontal"
+            android:elevation="10dp"
+            android:textStyle="bold"
+            android:textColor="@color/secondary"
+            android:background="@drawable/btn_round_white"
+            android:drawableLeft="@drawable/ic_group_add_24"
+            android:layout_height="wrap_content"/>
 
 
 
 
-    </RelativeLayout>
+    </LinearLayout>
+
+
 
 
 
@@ -59,6 +76,10 @@
         android:layout_width="match_parent"
         android:padding="10dp"
         android:layout_height="wrap_content">
+
+
+
+
 
 
         <LinearLayout
@@ -69,10 +90,14 @@
             android:orientation="horizontal">
 
 
+
+
+
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:orientation="vertical"
-                android:layout_alignParentRight="true"
+                android:visibility="gone"
                 android:layout_height="wrap_content">
 
                 <com.getbase.floatingactionbutton.FloatingActionButton
@@ -82,7 +107,6 @@
                     android:layout_gravity="center_horizontal"
                     app:fab_colorPressed="@color/main"
                     app:fab_size="mini"
-                    android:layout_margin="8dp"
                     app:fab_icon="@drawable/ic_person_add"
                     android:layout_height="wrap_content"/>
 
@@ -101,7 +125,6 @@
 
 
             </LinearLayout>
-
 
 
             <LinearLayout
@@ -131,13 +154,16 @@
 
             </LinearLayout>
 
+
+
             <View
                 android:layout_width="2dp"
                 android:layout_height="40dp"
                 android:layout_margin="6dp"
-                android:background="@color/grey" />
+                android:background="@color/white" />
 
             <LinearLayout
+                android:id="@+id/Available_status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
@@ -169,9 +195,10 @@
                 android:layout_width="2dp"
                 android:layout_height="40dp"
                 android:layout_margin="6dp"
-                android:background="@color/grey" />
+                android:background="@color/white" />
 
             <LinearLayout
+                android:id="@+id/UnAvailable_status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
@@ -198,6 +225,12 @@
 
             </LinearLayout>
 
+
+                        <View
+                            android:layout_width="2dp"
+                            android:layout_height="40dp"
+                            android:layout_margin="6dp"
+                            android:background="@color/white" />
 
 
 

@@ -16,6 +16,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.format.DateFormat;
@@ -40,20 +41,29 @@ import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.intech.yayabureau.Adapters.CandidateAdapter;
 import com.intech.yayabureau.Fragments.CandidatesFragment;
 import com.intech.yayabureau.Fragments.NotificationFragment;
 import com.intech.yayabureau.Fragments.ProfileFragment;
+import com.intech.yayabureau.Models.Bureau;
 import com.intech.yayabureau.Models.Candidates;
 import com.intech.yayabureau.R;
+import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 
 import javax.annotation.Nullable;
 
-public class MyCandidatesActivity extends AppCompatActivity  {
+import de.hdodenhof.circleimageview.CircleImageView;
+import ru.nikartm.support.BadgePosition;
+import ru.nikartm.support.ImageBadgeView;
+
+ public class MyCandidatesActivity extends AppCompatActivity  {
     private long backPressedTime;
     private ImageView imageView;
     private SwipeRefreshLayout swipeRefreshLayout;
@@ -61,13 +71,15 @@ public class MyCandidatesActivity extends AppCompatActivity  {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     CollectionReference BureauRef = db.collection("Yaya_Bureau");
     CollectionReference CandidateRef = db.collection("Yaya_Candidates");
-    private TextView textUser,textEmail,textBureauName,OpenDrawer;
+    private TextView textUser,textEmail,textBureauName,OpenDrawer,headerName,headerName2,headerEmail;
     private FloatingActionButton addCandidate;
     private CandidateAdapter adapter;
     private RecyclerView mRecyclerView;
     private DrawerLayout dl;
     private ActionBarDrawerToggle t;
     private NavigationView nv;
+    private CircleImageView headerImage;
+     private ImageBadgeView notificationBadge;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -96,7 +108,15 @@ public class MyCandidatesActivity extends AppCompatActivity  {
             return true;
         }
     };
-    @Override
+
+
+     @Override
+     protected void onRestart() {
+         super.onRestart();
+         FetchNotificationCount();
+     }
+
+     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_candidates);
@@ -108,6 +128,7 @@ public class MyCandidatesActivity extends AppCompatActivity  {
         mAuth = FirebaseAuth.getInstance();
         OpenDrawer = findViewById(R.id.drawerOpen);
         dl = (DrawerLayout) findViewById(R.id.drawer);
+        notificationBadge = findViewById(R.id.badge);
 //        dl.closeDrawer(GravityCompat.END);
 
 
@@ -123,7 +144,18 @@ public class MyCandidatesActivity extends AppCompatActivity  {
                 }
             }
         });
-
+        notificationBadge.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getSupportFragmentManager().beginTransaction().replace(R.id.Frame_profile,
+                        new NotificationFragment()).commit();
+            }
+        });
+        View header= nv.getHeaderView(0);
+        headerName = (TextView)header.findViewById(R.id.header_name);
+        headerEmail = (TextView)header.findViewById(R.id.header_email);
+        headerName2 = (TextView)header.findViewById(R.id.header_name2);
+        headerImage = (CircleImageView) header.findViewById(R.id.header_image);
         nv.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -135,6 +167,7 @@ public class MyCandidatesActivity extends AppCompatActivity  {
                         }
                         getSupportFragmentManager().beginTransaction().replace(R.id.Frame_profile,
                                 new ProfileFragment()).commit();
+                        FetchNotificationCount();
                         break;
 
                     case R.id.notification:
@@ -144,6 +177,7 @@ public class MyCandidatesActivity extends AppCompatActivity  {
                         }
                         getSupportFragmentManager().beginTransaction().replace(R.id.Frame_profile,
                                 new NotificationFragment()).commit();
+                        FetchNotificationCount();
                         break;
                     case R.id.share:
                         if (dl.isDrawerOpen(GravityCompat.START)){
@@ -156,6 +190,7 @@ public class MyCandidatesActivity extends AppCompatActivity  {
                             dl.closeDrawer(GravityCompat.START);
                         }
                        startActivity(new Intent(getApplicationContext(),Add_Candidate.class));
+                        FetchNotificationCount();
                         break;
                     case R.id.my_candidate:
                         if (dl.isDrawerOpen(GravityCompat.START)){
@@ -163,11 +198,13 @@ public class MyCandidatesActivity extends AppCompatActivity  {
                         }
                         getSupportFragmentManager().beginTransaction().replace(R.id.Frame_profile,
                                 new CandidatesFragment()).commit();
+                        FetchNotificationCount();
                         break;
                     case R.id.refer:
                         if (dl.isDrawerOpen(GravityCompat.START)){
                             dl.closeDrawer(GravityCompat.START);
                         }
+                        FetchNotificationCount();
                         break;
                     case R.id.logOut:
                         if (dl.isDrawerOpen(GravityCompat.START)){
@@ -187,12 +224,101 @@ public class MyCandidatesActivity extends AppCompatActivity  {
         });
 
 
+        LoadDetails();
+        FetchNotificationCount();
 
     }
 
 
 
-    private AlertDialog dialog2;
+     ArrayList<Object> uniqueNotify = new ArrayList<Object>();
+     int sumNotify = 0;
+     private void FetchNotificationCount() {
+         BureauRef.document(mAuth.getCurrentUser().getUid()).collection("Notifications")
+                 .whereEqualTo("to",mAuth.getCurrentUser().getUid())
+                 .whereEqualTo("status","none")
+                 .get()
+                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                     @Override
+                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                         if (task.isSuccessful()) {
+                             uniqueNotify.clear();
+                             sumNotify = 0;
+                             for (QueryDocumentSnapshot document : task.getResult()) {
+                                 uniqueNotify.add(document.getData());
+                                 for (sumNotify = 0; sumNotify < uniqueNotify.size(); sumNotify++) {
+
+                                 }
+                                 if (sumNotify > 0){
+                                     notificationBadge.setBadgeValue(sumNotify)
+                                             .setMaxBadgeValue(999)
+                                             .setBadgePosition(BadgePosition.TOP_RIGHT)
+                                             .setBadgeTextStyle(Typeface.NORMAL)
+                                             .setShowCounter(true);
+                                 }else {
+                                     notificationBadge.setBadgeValue(0)
+                                             .setMaxBadgeValue(999)
+                                             .setBadgePosition(BadgePosition.TOP_RIGHT)
+                                             .setBadgeTextStyle(Typeface.NORMAL)
+                                             .setShowCounter(true);
+                                 }
+
+                                 // ToastBack("Notifications: "+sum+"");
+                             }
+
+                         } else {
+
+                         }
+
+
+                     }
+                 });
+
+     }
+
+
+     //----Load details---//
+     private String userName,email,BureauName,ImageBureau;
+     private long noOfCandidates;
+     private void LoadDetails() {
+
+         BureauRef.document(mAuth.getCurrentUser().getUid()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+             @Override
+             public void onEvent(@Nullable DocumentSnapshot documentSnapshot,
+                                 @Nullable FirebaseFirestoreException e) {
+                 if (e != null) {
+                     return;
+                 }
+                 if (documentSnapshot.exists()){
+                     Bureau bureau = documentSnapshot.toObject(Bureau.class);
+                     userName = bureau.getName();
+                     email = bureau.getEmail();
+                     BureauName = bureau.getBureau_Name();
+                     noOfCandidates = bureau.getNo_of_candidates();
+                     ImageBureau = bureau.getBureau_Image();
+
+                     if (ImageBureau != null){
+                         Picasso.with(headerImage.getContext())
+                                 .load(ImageBureau).placeholder(R.drawable.load)
+                                 .error(R.drawable.user)
+                                 .into(headerImage);
+                     }
+
+                     headerName.setText(BureauName);
+                     headerName2.setText(userName);
+                     headerEmail.setText(email);
+
+                 }
+             }
+         });
+
+
+     }
+     //...end load details
+
+
+
+     private AlertDialog dialog2;
     public void Logout_Alert() {
 
         Date currentTime = Calendar.getInstance().getTime();
@@ -278,6 +404,7 @@ public class MyCandidatesActivity extends AppCompatActivity  {
         } else {
 
               ToastBack("Double tap to exit");
+              FetchNotificationCount();
             getSupportFragmentManager().beginTransaction().replace(R.id.Frame_profile,new
                     CandidatesFragment()).commit();
         }

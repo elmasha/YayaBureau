@@ -1,6 +1,7 @@
 package com.intech.yayabureau.Fragments;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -43,21 +44,27 @@ import java.util.HashMap;
 import javax.annotation.Nullable;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import ru.nikartm.support.BadgePosition;
+import ru.nikartm.support.ImageBadgeView;
+import ru.nikartm.support.model.Badge;
 
 
 public class  CandidatesFragment extends Fragment {
 View root;
-    private LinearLayout imageView;
+    private LinearLayout imageView,AvailableStatus,UnAvailableStatus;
     private SwipeRefreshLayout swipeRefreshLayout;
     FirebaseAuth mAuth;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     CollectionReference BureauRef = db.collection("Yaya_Bureau");
     CollectionReference CandidateRef = db.collection("Yaya_Candidates");
-    private TextView textUser,textEmail,textBureauName,countCandidate,AvailableCountText,BureauNameText,UnAvailableCountText;
+    private TextView textUser,textEmail,textBureauName,countCandidate,AvailableCountText
+            ,BureauNameText,UnAvailableCountText,AddCandidate2;
     private FloatingActionButton addCandidate;
     private CandidateAdapter adapter;
     private RecyclerView mRecyclerView;
     private CircleImageView profileImage;
+    private String Status = "";
+
 
     public CandidatesFragment() {
         // Required empty public constructor
@@ -91,15 +98,41 @@ View root;
         AvailableCountText = root.findViewById(R.id.AvailableCount);
         BureauNameText = root.findViewById(R.id.MyBureauName);
         UnAvailableCountText = root.findViewById(R.id.UnAvailableCount);
+        AvailableStatus = root.findViewById(R.id.Available_status);
+        UnAvailableStatus = root.findViewById(R.id.UnAvailable_status);
+        AddCandidate2 = root.findViewById(R.id.Add_candidate2);
+
+
+        AvailableStatus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Status = "Available";
+                FetchProduct();
+            }
+        });
+
+
+        UnAvailableStatus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Status = "UnAvailable";
+                FetchProduct();
+
+            }
+        });
 
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                Status = "";
                 FetchProduct();
                 LoadDetails();
                 FetchAvailableCount();
                 FetchUnAvailableCount();
+                FetchNotificationCount();
                 final Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
                     @Override
@@ -118,11 +151,19 @@ View root;
                 startActivity(new Intent(getContext(), Add_Candidate.class));
             }
         });
+
+        AddCandidate2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getContext(), Add_Candidate.class));
+            }
+        });
         FetchProduct();
         LoadDetails();
         FetchCandidateCount();
         FetchAvailableCount();
        FetchUnAvailableCount();
+
     return root;
     }
 
@@ -160,30 +201,61 @@ View root;
 
 
     private void FetchProduct() {
+        if (Status.equals("")){
 
-        Query query = CandidateRef.whereEqualTo("User_ID",mAuth.getCurrentUser().getUid())
-                .orderBy("timestamp", Query.Direction.DESCENDING).limit(30);
-        FirestoreRecyclerOptions<Candidates> transaction = new FirestoreRecyclerOptions.Builder<Candidates>()
-                .setQuery(query, Candidates.class)
-                .setLifecycleOwner(this)
-                .build();
-        adapter = new CandidateAdapter(transaction);
-        mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.setNestedScrollingEnabled(false);
-        mRecyclerView.setLayoutManager(new GridLayoutManager(getContext(),2));
-        mRecyclerView.setAdapter(adapter);
+            Query query = CandidateRef.whereEqualTo("User_ID",mAuth.getCurrentUser().getUid())
+                    .orderBy("timestamp", Query.Direction.DESCENDING).limit(30);
+            FirestoreRecyclerOptions<Candidates> transaction = new FirestoreRecyclerOptions.Builder<Candidates>()
+                    .setQuery(query, Candidates.class)
+                    .setLifecycleOwner(this)
+                    .build();
+            adapter = new CandidateAdapter(transaction);
+            mRecyclerView.setHasFixedSize(true);
+            mRecyclerView.setNestedScrollingEnabled(false);
+            mRecyclerView.setLayoutManager(new GridLayoutManager(getContext(),2));
+            mRecyclerView.setAdapter(adapter);
 
-        adapter.setOnItemClickListener(new CandidateAdapter.OnItemCickListener() {
-            @Override
-            public void onItemClick(DocumentSnapshot documentSnapshot, int position) {
-                Candidates  candidates = documentSnapshot.toObject(Candidates.class);
-                String id = documentSnapshot.getId();
-                Intent toUpdate = new Intent(getContext(), UpdateCandidateActivity.class);
-                toUpdate.putExtra("ID",id);
-                startActivity(toUpdate);
+            adapter.setOnItemClickListener(new CandidateAdapter.OnItemCickListener() {
+                @Override
+                public void onItemClick(DocumentSnapshot documentSnapshot, int position) {
+                    Candidates  candidates = documentSnapshot.toObject(Candidates.class);
+                    String id = documentSnapshot.getId();
+                    Intent toUpdate = new Intent(getContext(), UpdateCandidateActivity.class);
+                    toUpdate.putExtra("ID",id);
+                    startActivity(toUpdate);
 
-            }
-        });
+                }
+            });
+
+        }else if (Status != null){
+
+            Query query = CandidateRef.whereEqualTo("User_ID",mAuth.getCurrentUser().getUid())
+                    .whereEqualTo("Status",Status)
+                    .orderBy("timestamp", Query.Direction.DESCENDING).limit(30);
+            FirestoreRecyclerOptions<Candidates> transaction = new FirestoreRecyclerOptions.Builder<Candidates>()
+                    .setQuery(query, Candidates.class)
+                    .setLifecycleOwner(this)
+                    .build();
+            adapter = new CandidateAdapter(transaction);
+            mRecyclerView.setHasFixedSize(true);
+            mRecyclerView.setNestedScrollingEnabled(false);
+            mRecyclerView.setLayoutManager(new GridLayoutManager(getContext(),2));
+            mRecyclerView.setAdapter(adapter);
+
+            adapter.setOnItemClickListener(new CandidateAdapter.OnItemCickListener() {
+                @Override
+                public void onItemClick(DocumentSnapshot documentSnapshot, int position) {
+                    Candidates  candidates = documentSnapshot.toObject(Candidates.class);
+                    String id = documentSnapshot.getId();
+                    Intent toUpdate = new Intent(getContext(), UpdateCandidateActivity.class);
+                    toUpdate.putExtra("ID",id);
+                    startActivity(toUpdate);
+
+                }
+            });
+
+        }
+
 
     }
 
@@ -236,6 +308,45 @@ View root;
     }
     //...end load details
 
+
+
+
+
+    ArrayList<Object> uniqueNotify = new ArrayList<Object>();
+    int sumNotify = 0;
+    private void FetchNotificationCount() {
+        BureauRef.document(mAuth.getCurrentUser().getUid()).collection("Notifications")
+                .whereEqualTo("to",mAuth.getCurrentUser().getUid())
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            uniqueNotify.clear();
+                            sumNotify = 0;
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                uniqueNotify.add(document.getData());
+                                for (sumNotify = 0; sumNotify < uniqueNotify.size(); sumNotify++) {
+
+                                }
+                                if (sumNotify > 0){
+
+                                }else {
+
+                                }
+
+
+                            }
+
+                        } else {
+
+                        }
+
+
+                    }
+                });
+
+    }
 
 
 

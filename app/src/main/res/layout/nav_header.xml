@@ -1,18 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/primary">
+    android:padding="10dp"
+    android:background="@color/secondary">
 
 
-    <TextView
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:src="@drawable/user"
+        android:id="@+id/header_image"
+        android:layout_width="60dp"
+        app:civ_border_color="@color/primary"
+        app:civ_border_width="2dp"
+        android:layout_height="70dp"/>
+
+
+
+
+    <LinearLayout
         android:layout_width="wrap_content"
-        android:textSize="22dp"
-        android:textColor="@color/black"
-        android:textStyle="bold"
-        android:layout_margin="20dp"
-        android:layout_height="wrap_content"
-        android:text="Yaya Bureau"/>
+        android:orientation="vertical"
+        android:paddingLeft="12dp"
+        android:layout_gravity="center"
+        android:layout_height="wrap_content">
+
+
+        <TextView
+            android:id="@+id/header_name"
+            android:layout_width="wrap_content"
+            android:textSize="19sp"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:layout_height="wrap_content"
+            android:text=""/>
+
+        <TextView
+            android:id="@+id/header_name2"
+            android:layout_width="wrap_content"
+            android:textSize="16sp"
+            android:visibility="gone"
+            android:textColor="@color/white"
+            android:layout_height="wrap_content"
+            android:text=""/>
+
+        <TextView
+            android:id="@+id/header_email"
+            android:layout_width="wrap_content"
+            android:textSize="14sp"
+            android:textColor="@color/white"
+            android:layout_height="wrap_content"
+            android:text=""/>
+
+    </LinearLayout>
+
 
 </LinearLayout>

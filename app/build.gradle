@@ -60,8 +60,9 @@ dependencies {
     implementation 'com.github.ybq:Android-SpinKit:1.2.0'
     implementation 'cc.cloudist.acplibrary:library:1.2.1'
 
-    //Bagde..
-    implementation 'com.nex3z:notification-badge:1.0.2'
+    implementation 'io.github.nikartm:image-support:2.0.0'
+
+
 
     //SweetAlert
     implementation 'com.github.f0ris.sweetalert:library:1.5.6'

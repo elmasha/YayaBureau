@@ -218,8 +218,9 @@ public class Add_Candidate extends AppCompatActivity {
     private void Notify(String id){
         HashMap<String ,Object> notify = new HashMap<>();
         notify.put("title","New candidate");
-        notify.put("desc","You have successful added "+firstName +" " + middleName +" "+surName);
+        notify.put("desc","You have successful added "+firstName +" " + middleName +" "+surName + " to your list of candidates.");
         notify.put("to",id);
+        notify.put("status","none");
         notify.put("type","Added a new candidate.");
         notify.put("from",mAuth.getCurrentUser().getUid());
         notify.put("timestamp",FieldValue.serverTimestamp());
@@ -253,6 +254,7 @@ public class Add_Candidate extends AppCompatActivity {
     private void Store_Image_and_Details() {
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Please wait uploading details...");
+        progressDialog.setCancelable(false);
         progressDialog.show();
         File newimage = new File(ImageUri.getPath());
         firstName = InputFirstName.getText().toString().trim();
@@ -357,7 +359,17 @@ public class Add_Candidate extends AppCompatActivity {
                     public void onComplete(@androidx.annotation.NonNull Task<Void> task) {
 
                         if (task.isSuccessful()){
+                            Notify(mAuth.getCurrentUser().getUid());
+                            snackbar = Snackbar.make(relativeLayout, "Registration successful", Snackbar.LENGTH_INDEFINITE);
+                            snackbar.setAction("NOTIFY", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                }
+                            });
 
+                            snackbar.show();
+                            progressDialog.dismiss();
+                        getAvailableCounts();
                         }else {
 
                             ToastBack("Registration failed try Again.");

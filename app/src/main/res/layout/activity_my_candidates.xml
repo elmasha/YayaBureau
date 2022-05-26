@@ -12,13 +12,46 @@
         android:layout_width="match_parent"
         android:orientation="vertical"
         android:layout_height="match_parent">
-        <TextView
-            android:id="@+id/drawerOpen"
-            android:layout_width="wrap_content"
-            android:drawableLeft="@drawable/ic_menu_32"
-            android:layout_margin="10dp"
-            android:paddingLeft="19dp"
-            android:layout_height="wrap_content"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/drawerOpen"
+                android:layout_width="wrap_content"
+                android:drawableLeft="@drawable/ic_menu_32"
+                android:layout_margin="10dp"
+                android:paddingLeft="19dp"
+                android:layout_height="wrap_content"/>
+
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_alignParentRight="true"
+                android:padding="10dp"
+                android:layout_height="wrap_content">
+
+
+
+                <ru.nikartm.support.ImageBadgeView
+                    android:id="@+id/badge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:padding="4dp"
+                    app:ibv_fixedBadgeRadius="10dp"
+                    app:ibv_badgeTextStyle="bold"
+                    app:ibv_badgeTextSize="14sp"
+                    app:ibv_badgeTextColor="@color/white"
+                    app:ibv_badgeColor="@color/ColorRed"
+                    app:ibv_badgeLimitValue="false"
+                    android:src="@drawable/ic_notifications_38" />
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
 
         <RelativeLayout
             android:layout_width="match_parent"

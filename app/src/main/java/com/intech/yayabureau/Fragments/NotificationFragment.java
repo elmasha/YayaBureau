@@ -3,8 +3,10 @@ package com.intech.yayabureau.Fragments;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,17 +22,26 @@ import android.widget.Toast;
 
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.getbase.floatingactionbutton.FloatingActionButton;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.intech.yayabureau.Activities.MyCandidatesActivity;
 import com.intech.yayabureau.Adapters.NotificationAdapter;
 import com.intech.yayabureau.Models.Notification;
 import com.intech.yayabureau.R;
 import com.intech.yayabureau.TimeAgo;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import de.hdodenhof.circleimageview.CircleImageView;
+import ru.nikartm.support.BadgePosition;
 
 
 public class NotificationFragment extends Fragment {
@@ -58,6 +69,12 @@ View root;
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        FetchNotificationCount();
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -68,6 +85,7 @@ View root;
            @Override
            public void onRefresh() {
                FetchNotification();
+               FetchNotificationCount();
                final Handler handler = new Handler();
                handler.postDelayed(new Runnable() {
                    @Override
@@ -79,7 +97,46 @@ View root;
        });
        mRecyclerView = root.findViewById(R.id.recycler_notification);
         FetchNotification();
+        FetchNotificationCount();
         return root;
+    }
+
+
+    ArrayList<Object> uniqueNotify = new ArrayList<Object>();
+    int sumNotify = 0;
+    private void FetchNotificationCount() {
+        BureauRef.document(mAuth.getCurrentUser().getUid()).collection("Notifications")
+                .whereEqualTo("to",mAuth.getCurrentUser().getUid())
+                .whereEqualTo("status","none")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            uniqueNotify.clear();
+                            sumNotify = 0;
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                uniqueNotify.add(document.getData());
+                                for (sumNotify = 0; sumNotify < uniqueNotify.size(); sumNotify++) {
+
+                                }
+                                if (sumNotify > 0){
+
+                                }else {
+
+                                }
+
+                                // ToastBack("Notifications: "+sum+"");
+                            }
+
+                        } else {
+
+                        }
+
+
+                    }
+                });
+
     }
 
 
@@ -110,6 +167,19 @@ View root;
                 type1 = notification.getType();
                 time1 = TimeAgo.getTimeAgo(notification.getTimestamp().getTime());
                 ShowNotification();
+                HashMap<String,Object> noty = new HashMap<>();
+                noty.put("status","seen");
+                BureauRef.document(mAuth.getCurrentUser().getUid())
+                        .collection("Notifications").document(documentSnapshot.getId())
+                        .update(noty).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()){
+                            FetchNotification();
+                            FetchNotificationCount();
+                        }
+                    }
+                });
             }
         });
 

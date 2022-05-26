@@ -2,6 +2,7 @@ package com.intech.yayabureau.Adapters;
 
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,10 +33,20 @@ public class NotificationAdapter extends FirestoreRecyclerAdapter<Notification, 
     @Override
     protected void onBindViewHolder(@NonNull ProviderViewHolder holder, int position, @NonNull Notification model) {
 
-        if (model.getTitle() != null | model.getDesc() != null |model.getTimestamp() != null ){
+        if (model.getTitle() != null | model.getDesc() != null |model.getTimestamp() != null |model.getStatus() != null ){
             holder.title.setText(model.getTitle());
             holder.desc.setText(model.getDesc());
             holder.time.setText(TimeAgo.getTimeAgo(model.getTimestamp().getTime()));
+            String state = model.getStatus();
+
+
+            if (state.equals("none")){
+                holder.title.setTextColor(Color.parseColor("#0BF4DE"));
+                holder.time.setTextColor(Color.parseColor("#0BF4DE"));
+            }else {
+                holder.title.setTextColor(Color.parseColor("#1C1B2B"));
+                holder.time.setTextColor(Color.parseColor("#808080"));
+            }
         }
 
 
@@ -57,6 +68,7 @@ public class NotificationAdapter extends FirestoreRecyclerAdapter<Notification, 
 
     class ProviderViewHolder extends RecyclerView.ViewHolder{
        private TextView title, desc, time;
+       private View view;
 
         public ProviderViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -64,6 +76,7 @@ public class NotificationAdapter extends FirestoreRecyclerAdapter<Notification, 
             title = itemView.findViewById(R.id.notify_title);
             desc = itemView.findViewById(R.id.notify_description);
             time = itemView.findViewById(R.id.notify_time);
+            view = itemView.findViewById(R.id.ViewSeen);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

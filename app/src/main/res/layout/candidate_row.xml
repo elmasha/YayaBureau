@@ -78,6 +78,7 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:orientation="horizontal"
+                    android:padding="8dp"
                     android:layout_gravity="center_horizontal"
                     android:layout_height="wrap_content">
 
@@ -107,6 +108,7 @@
                     android:id="@+id/row_mobile"
                     android:layout_width="wrap_content"
                     android:text="073828829"
+                    android:visibility="gone"
                     android:textColor="@color/black"
                     android:layout_gravity="center_horizontal"
                     android:layout_height="wrap_content"/>
