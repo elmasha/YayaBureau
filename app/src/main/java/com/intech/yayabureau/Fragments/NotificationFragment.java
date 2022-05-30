@@ -102,6 +102,7 @@ View root;
        mRecyclerView = root.findViewById(R.id.recycler_notification);
         FetchNotification();
         FetchNotificationCount();
+        NotifyCount();
         return root;
     }
 
@@ -198,7 +199,8 @@ View root;
     ArrayList<Object> uniqueCount = new ArrayList<Object>();
     int sumCanidate ;
     private void NotifyCount() {
-        CandidateRef.whereEqualTo("User_ID",mAuth.getCurrentUser().getUid())
+        BureauRef.document(mAuth.getCurrentUser().getUid())
+                .collection("Notifications")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override

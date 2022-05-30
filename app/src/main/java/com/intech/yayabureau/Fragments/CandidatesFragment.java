@@ -148,6 +148,7 @@ View root;
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                ErrorLayoutStatus.setVisibility(View.GONE);
                 Status = "";
                 FetchProduct();
                 LoadDetails();
@@ -231,9 +232,8 @@ View root;
     int sumStatus2 ;
     private void StatusCount2(String Status) {
         if (Status != null){
-            if (Status.equals("Available")){
                 CandidateRef.whereEqualTo("User_ID",mAuth.getCurrentUser().getUid())
-                        .whereEqualTo("status","Available")
+                        .whereEqualTo("Status","Available")
                         .get()
                         .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                             @Override
@@ -246,20 +246,19 @@ View root;
 
                                         }
                                     }
-
                                     if (sumStatus2 == 0){
                                         ErrorLayoutStatus.setVisibility(View.VISIBLE);
                                     }else {
                                         ErrorLayoutStatus.setVisibility(View.GONE);
                                     }
-                                    Toast.makeText(getContext(), sumStatus+"", Toast.LENGTH_SHORT).show();
+
 
                                 } else {
 
                                 }
                             }
                         });
-            }
+
 
         }
 
@@ -275,9 +274,8 @@ View root;
     int sumStatus ;
     private void StatusCount(String Status) {
         if (Status != null){
-            if (Status.equals("UnAvailable")){
                 CandidateRef.whereEqualTo("User_ID",mAuth.getCurrentUser().getUid())
-                        .whereEqualTo("status","UnAvailable")
+                        .whereEqualTo("Status","UnAvailable")
                         .get()
                         .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                             @Override
@@ -296,13 +294,11 @@ View root;
                                     }else {
                                         ErrorLayoutStatus.setVisibility(View.GONE);
                                     }
-                                    Toast.makeText(getContext(), sumStatus+"", Toast.LENGTH_SHORT).show();
                                 } else {
 
                                 }
                             }
                         });
-            }
 
         }
 
