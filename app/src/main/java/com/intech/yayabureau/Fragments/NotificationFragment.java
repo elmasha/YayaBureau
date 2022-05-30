@@ -17,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -52,7 +53,8 @@ View root;
     CollectionReference CandidateRef = db.collection("Yaya_Candidates");
     private CircleImageView profileImage;
 
-    private LinearLayout imageView;
+    private LinearLayout imageView,ErrorLayout;
+    private ProgressBar progressBar;
     private SwipeRefreshLayout swipeRefreshLayout;
 
     private NotificationAdapter adapter;
@@ -81,6 +83,8 @@ View root;
        root = inflater.inflate(R.layout.fragment_notification, container, false);
        mAuth = FirebaseAuth.getInstance();
        swipeRefreshLayout = root.findViewById(R.id.SwipeRefresh_notify);
+       progressBar = root.findViewById(R.id.progressNotification);
+       ErrorLayout = root.findViewById(R.id.ErrorLayoutNotification);
        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
            @Override
            public void onRefresh() {
@@ -120,13 +124,17 @@ View root;
                                 for (sumNotify = 0; sumNotify < uniqueNotify.size(); sumNotify++) {
 
                                 }
-                                if (sumNotify > 0){
 
+                                if (sumNotify <= 0){
+                                    progressBar.setVisibility(View.GONE);
+                                    ErrorLayout.setVisibility(View.VISIBLE);
                                 }else {
-
+                                    progressBar.setVisibility(View.GONE);
+                                    ErrorLayout.setVisibility(View.GONE);
                                 }
 
-                                // ToastBack("Notifications: "+sum+"");
+
+
                             }
 
                         } else {
@@ -182,6 +190,40 @@ View root;
                 });
             }
         });
+
+    }
+
+
+
+    ArrayList<Object> uniqueCount = new ArrayList<Object>();
+    int sumCanidate ;
+    private void NotifyCount() {
+        CandidateRef.whereEqualTo("User_ID",mAuth.getCurrentUser().getUid())
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                uniqueCount.add(document.getData());
+                                sumCanidate = 0;
+                                for ( sumCanidate = 0; sumCanidate < uniqueCount.size(); sumCanidate++) {
+
+                                }
+                            }
+
+                            if (sumCanidate <= 0){
+                                progressBar.setVisibility(View.GONE);
+                                ErrorLayout.setVisibility(View.VISIBLE);
+                            }else {
+                                progressBar.setVisibility(View.GONE);
+                                ErrorLayout.setVisibility(View.GONE);
+                            }
+                        } else {
+
+                        }
+                    }
+                });
 
     }
 

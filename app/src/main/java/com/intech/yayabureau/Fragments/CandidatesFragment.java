@@ -15,7 +15,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.getbase.floatingactionbutton.FloatingActionButton;
@@ -51,7 +53,7 @@ import ru.nikartm.support.model.Badge;
 
 public class  CandidatesFragment extends Fragment {
 View root;
-    private LinearLayout imageView,AvailableStatus,UnAvailableStatus;
+    private LinearLayout imageView,AvailableStatus,UnAvailableStatus,ErrorLayout,ErrorLayoutStatus,AllCandidate;
     private SwipeRefreshLayout swipeRefreshLayout;
     FirebaseAuth mAuth;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -64,6 +66,7 @@ View root;
     private RecyclerView mRecyclerView;
     private CircleImageView profileImage;
     private String Status = "";
+    private ProgressBar progressBar;
 
 
     public CandidatesFragment() {
@@ -78,6 +81,7 @@ View root;
         FetchCandidateCount();
         FetchAvailableCount();
         FetchUnAvailableCount();
+        CandidateCount();
     }
 
     @Override
@@ -101,6 +105,21 @@ View root;
         AvailableStatus = root.findViewById(R.id.Available_status);
         UnAvailableStatus = root.findViewById(R.id.UnAvailable_status);
         AddCandidate2 = root.findViewById(R.id.Add_candidate2);
+        ErrorLayout = root.findViewById(R.id.ErrorLayout);
+        ErrorLayoutStatus = root.findViewById(R.id.ErrorLayoutStatus);
+        progressBar = root.findViewById(R.id.progressFeed);
+        AllCandidate = root.findViewById(R.id.AllCandidate);
+
+
+
+        AllCandidate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Status = "";
+                FetchProduct();
+                CandidateCount();
+            }
+        });
 
 
         AvailableStatus.setOnClickListener(new View.OnClickListener() {
@@ -109,6 +128,7 @@ View root;
 
                 Status = "Available";
                 FetchProduct();
+                StatusCount2(Status);
             }
         });
 
@@ -119,6 +139,7 @@ View root;
 
                 Status = "UnAvailable";
                 FetchProduct();
+                StatusCount(Status);
 
             }
         });
@@ -163,6 +184,7 @@ View root;
         FetchCandidateCount();
         FetchAvailableCount();
        FetchUnAvailableCount();
+       CandidateCount();
 
     return root;
     }
@@ -182,8 +204,8 @@ View root;
                                  sum = 0;
                                 for (sum = 0; sum < uniqueDates.size(); sum++) {
                                 }
-
                             }
+
 
                         } else {
 
@@ -193,11 +215,137 @@ View root;
 
     }
 
+
+
+
     private void StoreCount(int sum) {
         HashMap<String,Object> updateCount = new HashMap<>();
         updateCount.put("No_of_candidates",sum);
         BureauRef.document(mAuth.getCurrentUser().getUid()).update(updateCount);
     }
+
+
+
+
+    ArrayList<Object> uniqueStatus2 = new ArrayList<Object>();
+    int sumStatus2 ;
+    private void StatusCount2(String Status) {
+        if (Status != null){
+            if (Status.equals("Available")){
+                CandidateRef.whereEqualTo("User_ID",mAuth.getCurrentUser().getUid())
+                        .whereEqualTo("status","Available")
+                        .get()
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    for (QueryDocumentSnapshot document : task.getResult()) {
+                                        uniqueStatus2.add(document.getData());
+                                        sumStatus2 = 0;
+                                        for ( sumStatus2 = 0; sumStatus2 < uniqueStatus2.size(); sumStatus2++) {
+
+                                        }
+                                    }
+
+                                    if (sumStatus2 == 0){
+                                        ErrorLayoutStatus.setVisibility(View.VISIBLE);
+                                    }else {
+                                        ErrorLayoutStatus.setVisibility(View.GONE);
+                                    }
+                                    Toast.makeText(getContext(), sumStatus+"", Toast.LENGTH_SHORT).show();
+
+                                } else {
+
+                                }
+                            }
+                        });
+            }
+
+        }
+
+
+
+    }
+
+
+
+
+
+    ArrayList<Object> uniqueStatus = new ArrayList<Object>();
+    int sumStatus ;
+    private void StatusCount(String Status) {
+        if (Status != null){
+            if (Status.equals("UnAvailable")){
+                CandidateRef.whereEqualTo("User_ID",mAuth.getCurrentUser().getUid())
+                        .whereEqualTo("status","UnAvailable")
+                        .get()
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    for (QueryDocumentSnapshot document : task.getResult()) {
+                                        uniqueStatus.add(document.getData());
+                                        sumStatus = 0;
+                                        for ( sumStatus = 0; sumStatus < uniqueStatus.size(); sumStatus++) {
+
+                                        }
+                                    }
+
+                                    if (sumStatus == 0){
+                                        ErrorLayoutStatus.setVisibility(View.VISIBLE);
+                                    }else {
+                                        ErrorLayoutStatus.setVisibility(View.GONE);
+                                    }
+                                    Toast.makeText(getContext(), sumStatus+"", Toast.LENGTH_SHORT).show();
+                                } else {
+
+                                }
+                            }
+                        });
+            }
+
+        }
+
+
+
+    }
+
+
+
+    ArrayList<Object> uniqueCount = new ArrayList<Object>();
+    int sumCanidate ;
+    private void CandidateCount() {
+        ErrorLayoutStatus.setVisibility(View.GONE);
+        CandidateRef.whereEqualTo("User_ID",mAuth.getCurrentUser().getUid())
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                uniqueCount.add(document.getData());
+                                sumCanidate = 0;
+                                for ( sumCanidate = 0; sumCanidate < uniqueCount.size(); sumCanidate++) {
+
+                                }
+                            }
+
+                            if (sumCanidate <= 0){
+                                progressBar.setVisibility(View.GONE);
+                                ErrorLayout.setVisibility(View.VISIBLE);
+                            }else {
+                                progressBar.setVisibility(View.GONE);
+                                ErrorLayout.setVisibility(View.GONE);
+                            }
+                        } else {
+
+                        }
+                    }
+                });
+
+    }
+
+
 
 
     private void FetchProduct() {

@@ -6,8 +6,8 @@ public class Bureau {
 
 
         private String Name, Bureau_Name, ID_no, Building, Street_name, City,
-                County, Email, Box_No, Postal_code,Phone_NO, device_token, RegistrationFee,Bureau_Image,mpesa_receipt;
-        private long No_of_candidates;
+                County, Email, Box_No, Postal_code,Phone_NO, device_token, Bureau_Image,mpesa_receipt;
+        private long No_of_candidates,RegistrationFee;
         private Date timestamp;
 
     public Bureau() {
@@ -15,8 +15,11 @@ public class Bureau {
     }
 
 
-    public Bureau(String name, String bureau_Name, String ID_no, String building, String street_name, String city, String county, String email, String box_No, String postal_code, String phone_NO,
-                  String device_token, String registrationFee, String bureau_Image, String mpesa_receipt, long no_of_candidates, Date timestamp) {
+    public Bureau(String name, String bureau_Name, String ID_no, String building,
+                  String street_name, String city, String county, String email,
+                  String box_No, String postal_code, String phone_NO,
+                  String device_token, long registrationFee, String bureau_Image,
+                  String mpesa_receipt, long no_of_candidates, Date timestamp) {
         Name = name;
         Bureau_Name = bureau_Name;
         this.ID_no = ID_no;
@@ -144,11 +147,11 @@ public class Bureau {
         this.device_token = device_token;
     }
 
-    public String getRegistrationFee() {
+    public long getRegistrationFee() {
         return RegistrationFee;
     }
 
-    public void setRegistrationFee(String registrationFee) {
+    public void setRegistrationFee(long registrationFee) {
         RegistrationFee = registrationFee;
     }
 
