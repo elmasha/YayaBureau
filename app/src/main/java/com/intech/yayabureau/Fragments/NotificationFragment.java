@@ -175,7 +175,7 @@ View root;
                 desc1 = notification.getDesc();
                 type1 = notification.getType();
                 time1 = TimeAgo.getTimeAgo(notification.getTimestamp().getTime());
-                ShowNotification();
+
                 HashMap<String,Object> noty = new HashMap<>();
                 noty.put("status","seen");
                 BureauRef.document(mAuth.getCurrentUser().getUid())
@@ -184,6 +184,7 @@ View root;
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()){
+                            ShowNotification();
                             FetchNotification();
                             FetchNotificationCount();
                         }

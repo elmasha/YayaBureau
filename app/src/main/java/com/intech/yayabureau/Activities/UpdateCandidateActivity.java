@@ -426,7 +426,11 @@ private String middleName,Editssalary;
                     EditNo.setText(mobile);
                     EditResidence.setText(residence);
                     EditWard.setText(ward);
-                    Picasso.with(getApplicationContext()).load(image).placeholder(R.drawable.load).error(R.drawable.user).into(candidateProfile);
+                    if (image != null){
+                        Picasso.with(candidateProfile.getContext())
+                                .load(image)
+                                .placeholder(R.drawable.load).error(R.drawable.user).into(candidateProfile);
+                    }
 
                     if (status.equals("UnAvailable")){
                         employerDetails.setVisibility(View.VISIBLE);
