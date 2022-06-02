@@ -433,7 +433,11 @@ private String middleName,Editssalary;
                     }
 
                     if (status.equals("UnAvailable")){
-                        employerDetails.setVisibility(View.VISIBLE);
+                        if(eName != null  | ePhone != null){
+                            employerDetails.setVisibility(View.VISIBLE);
+                        }else {
+                            employerDetails.setVisibility(View.GONE);
+                        }
                         Status.setTextColor(getResources().getColor(R.color.ColorRed));
                     }else if (status.equals("Available")){
                         employerDetails.setVisibility(View.GONE);
