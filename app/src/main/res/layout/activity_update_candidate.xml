@@ -622,13 +622,14 @@
 
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/LayoutEmployerDetails"
             android:layout_width="match_parent"
+            android:visibility="gone"
             android:layout_margin="5dp"
             app:cardCornerRadius="10dp"
             android:layout_height="match_parent">
 
             <LinearLayout
-                android:id="@+id/LayoutEmployer"
                 android:layout_width="match_parent"
                 android:orientation="vertical"
                 android:padding="5dp"

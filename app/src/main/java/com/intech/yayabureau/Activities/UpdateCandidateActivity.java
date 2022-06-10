@@ -3,6 +3,7 @@ package com.intech.yayabureau.Activities;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
@@ -77,7 +78,7 @@ public class UpdateCandidateActivity extends AppCompatActivity {
     private String firstName,image,status,mobile,county,ward,UpdateStatus,
           salary,residence,idNo,age,eCounty,eCity,ePhone,eName;
     private FloatingActionButton  deleteCandidate,updateCandidate,callCandidate,editCandidate;
-    private LinearLayout employerDetails,StatusLayout,EditMyDetails,MyDetails;
+    private LinearLayout StatusLayout,EditMyDetails,MyDetails;
     int PERMISSION_ALL = 20003;
     private Bitmap compressedImageBitmap;
     String[] PERMISSIONS = {android.Manifest.permission.CALL_PHONE, Manifest.permission.SEND_SMS};
@@ -85,6 +86,7 @@ public class UpdateCandidateActivity extends AppCompatActivity {
     private Button Btn_SaveChanges;
     private int EditState = 0;
     private TextView BackToCandidate;
+    private CardView employerDetails;
 
 
     @Override
@@ -109,7 +111,7 @@ public class UpdateCandidateActivity extends AppCompatActivity {
       updateCandidate = findViewById(R.id.upload_candidate);
       deleteCandidate = findViewById(R.id.delete_candidate);
       Residence = findViewById(R.id.candidate_residence);
-      employerDetails = findViewById(R.id.LayoutEmployer);
+      employerDetails = findViewById(R.id.LayoutEmployerDetails);
       EmployerCounty = findViewById(R.id.employer_county);
       EmployerCity = findViewById(R.id.employer_city);
       StatusLayout = findViewById(R.id.StatusLayout);
@@ -433,10 +435,10 @@ private String middleName,Editssalary;
                     }
 
                     if (status.equals("UnAvailable")){
-                        if(eName != null  | ePhone != null){
-                            employerDetails.setVisibility(View.VISIBLE);
-                        }else {
+                        if(eName.equals("") | ePhone.equals("") ){
                             employerDetails.setVisibility(View.GONE);
+                        }else {
+                            employerDetails.setVisibility(View.VISIBLE);
                         }
                         Status.setTextColor(getResources().getColor(R.color.ColorRed));
                     }else if (status.equals("Available")){
